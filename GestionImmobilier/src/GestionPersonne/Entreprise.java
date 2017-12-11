@@ -1,5 +1,5 @@
 package GestionPersonne;
 
-public class Entreprise {
+public class Entreprise extends Client {
 
 }
