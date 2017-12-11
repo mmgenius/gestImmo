@@ -1,6 +1,5 @@
 package GestionBien;
 
-public class Bien {
-	
+public class Terrain {
 
 }
