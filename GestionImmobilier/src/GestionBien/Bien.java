@@ -77,6 +77,9 @@ public class Bien {
 		this.dateDeVente = dateDeVente;
 	} 
 	
+	public String toString() {
+		return "Bien_"+id+","+adresse+","+prix+","+orientation+","+dateDeDisponibilite+","+dateDeVente ; 
+	}
 	
 	
 	
