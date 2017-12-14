@@ -1,5 +1,9 @@
 package GestionPersonne;
 
-public class EmployeeAgence extends Personne{
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
+public class EmployeeAgence extends Personne{
+	private ArrayList<GregorianCalendar> calendrier;
+	private int matricule;
 }
