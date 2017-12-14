@@ -1,19 +1,14 @@
 package GestionAgence;
 
-public class Document {
-	public enum filetype {
-		html, 
-        css,  
-        js};
-    
-	public Document(String contenu, filetype type) {
+public class Document {    
+	public Document(String contenu, Filetype type) {
 		super();
 		this.contenu = contenu;
 		this.type = type;
 	}
 
 	private String contenu; //filepath
-	private filetype type;
+	private Filetype type;
 	
 	public void enregistrer() {
 		
