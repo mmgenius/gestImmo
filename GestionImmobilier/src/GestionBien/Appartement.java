@@ -24,7 +24,7 @@ public class Appartement extends Bien {
 	public void setChargeMensuelle(float chargeMensuelle) {
 		this.chargeMensuelle = chargeMensuelle;
 	}
-
+	
 	public int getNombrePiece() {
 		return nombrePiece;
 	}
