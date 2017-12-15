@@ -1,4 +1,25 @@
 package InterfaceHM;
+import javax.swing.JTabbedPane;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.JSplitPane;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.JPanel;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import java.awt.Component;
+import javax.swing.JTextField;
+import javax.swing.JTable;
+import javax.swing.SpringLayout;
+import javax.swing.JTextArea;
+import java.awt.GridLayout;
+import javax.swing.JButton;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -32,7 +53,6 @@ public class GestImmoGui extends javax.swing.JFrame {
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jScrollPane3 = new javax.swing.JScrollPane();
         jScrollPane4 = new javax.swing.JScrollPane();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
@@ -50,14 +70,254 @@ public class GestImmoGui extends javax.swing.JFrame {
         aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        desktopPane.setLayout(new FormLayout(new ColumnSpec[] {
+        		ColumnSpec.decode("770px"),},
+        	new RowSpec[] {
+        		RowSpec.decode("530px"),}));
 
         jTabbedPane2.addTab("Agence", jScrollPane1);
+        
+        tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
+        jScrollPane1.setViewportView(tabbedPane_1);
+        
+        scrollPane_3 = new JScrollPane();
+        tabbedPane_1.addTab("Rendez-Vous", null, scrollPane_3, null);
+        
+        scrollPane_4 = new JScrollPane();
+        tabbedPane_1.addTab("Mandats", null, scrollPane_4, null);
+        
+        scrollPane_5 = new JScrollPane();
+        tabbedPane_1.addTab("Publicit\u00E9s", null, scrollPane_5, null);
         jTabbedPane2.addTab("Biens", jScrollPane2);
-        jTabbedPane2.addTab("Personnes", jScrollPane3);
         jTabbedPane2.addTab("Ventes", jScrollPane4);
 
-        desktopPane.add(jTabbedPane2);
-        jTabbedPane2.setBounds(0, 0, 770, 530);
+        desktopPane.add(jTabbedPane2, "1, 1, fill, fill");
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTabbedPane2.addTab("Personnes", jScrollPane3);
+        
+        tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+        jScrollPane3.setViewportView(tabbedPane);
+        
+        scrollPane = new JScrollPane();
+        tabbedPane.addTab("Employ\u00E9es", null, scrollPane, null);
+        
+        panel = new JPanel();
+        scrollPane.setRowHeaderView(panel);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        
+        lblNewLabel = new JLabel("Liste des employ\u00E9es");
+        lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblNewLabel.setAlignmentY(Component.TOP_ALIGNMENT);
+        panel.add(lblNewLabel);
+        
+        list = new JList();
+        list.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panel.add(list);
+        
+        Del = new JButton("Effacer");
+        Del.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(Del);
+        
+        Create = new JButton("Ajouter");
+        Create.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(Create);
+        
+        panel_1 = new JPanel();
+        scrollPane.setColumnHeaderView(panel_1);
+        
+        Details = new JPanel();
+        scrollPane.setViewportView(Details);
+        Details.setLayout(new BoxLayout(Details, BoxLayout.Y_AXIS));
+        
+        lblNewLabel_1 = new JLabel("Details");
+        lblNewLabel_1.setAlignmentX(0.5f);
+        Details.add(lblNewLabel_1);
+        
+        JPanel Name = new JPanel();
+        Details.add(Name);
+        GridBagLayout gbl_Name = new GridBagLayout();
+        gbl_Name.columnWidths = new int[] {100, 500};
+        gbl_Name.rowHeights = new int[]{22, 0};
+        gbl_Name.columnWeights = new double[]{0.0, 0.0};
+        gbl_Name.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+        Name.setLayout(gbl_Name);
+        
+        lblNewLabel_3 = new JLabel("Nom");
+        GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
+        gbc_lblNewLabel_3.anchor = GridBagConstraints.WEST;
+        gbc_lblNewLabel_3.insets = new Insets(0, 0, 0, 5);
+        gbc_lblNewLabel_3.gridx = 0;
+        gbc_lblNewLabel_3.gridy = 0;
+        Name.add(lblNewLabel_3, gbc_lblNewLabel_3);
+        
+        textField = new JTextField();
+        textField.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        GridBagConstraints gbc_textField = new GridBagConstraints();
+        gbc_textField.anchor = GridBagConstraints.WEST;
+        gbc_textField.gridx = 1;
+        gbc_textField.gridy = 0;
+        Name.add(textField, gbc_textField);
+        textField.setColumns(10);
+        
+        FirstName = new JPanel();
+        Details.add(FirstName);
+        GridBagLayout gbl_FirstName = new GridBagLayout();
+        gbl_FirstName.columnWidths = new int[] {100, 500};
+        gbl_FirstName.rowHeights = new int[]{22, 0};
+        gbl_FirstName.columnWeights = new double[]{0.0, 0.0};
+        gbl_FirstName.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+        FirstName.setLayout(gbl_FirstName);
+        
+        lblNewLabel_2 = new JLabel("Prenom");
+        GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
+        gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
+        gbc_lblNewLabel_2.insets = new Insets(0, 0, 0, 5);
+        gbc_lblNewLabel_2.gridx = 0;
+        gbc_lblNewLabel_2.gridy = 0;
+        FirstName.add(lblNewLabel_2, gbc_lblNewLabel_2);
+        
+        textField_1 = new JTextField();
+        GridBagConstraints gbc_textField_1 = new GridBagConstraints();
+        gbc_textField_1.anchor = GridBagConstraints.WEST;
+        gbc_textField_1.gridx = 1;
+        gbc_textField_1.gridy = 0;
+        FirstName.add(textField_1, gbc_textField_1);
+        textField_1.setColumns(10);
+        
+        Email = new JPanel();
+        Details.add(Email);
+        GridBagLayout gbl_Email = new GridBagLayout();
+        gbl_Email.columnWidths = new int[] {100, 500};
+        gbl_Email.rowHeights = new int[]{22, 0};
+        gbl_Email.columnWeights = new double[]{0.0, 0.0};
+        gbl_Email.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+        Email.setLayout(gbl_Email);
+        
+        lblNewLabel_4 = new JLabel("Email");
+        GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
+        gbc_lblNewLabel_4.anchor = GridBagConstraints.WEST;
+        gbc_lblNewLabel_4.insets = new Insets(0, 0, 0, 5);
+        gbc_lblNewLabel_4.gridx = 0;
+        gbc_lblNewLabel_4.gridy = 0;
+        Email.add(lblNewLabel_4, gbc_lblNewLabel_4);
+        
+        textField_2 = new JTextField();
+        GridBagConstraints gbc_textField_2 = new GridBagConstraints();
+        gbc_textField_2.anchor = GridBagConstraints.WEST;
+        gbc_textField_2.gridx = 1;
+        gbc_textField_2.gridy = 0;
+        Email.add(textField_2, gbc_textField_2);
+        textField_2.setColumns(10);
+        
+        Adress = new JPanel();
+        Details.add(Adress);
+        GridBagLayout gbl_Adress = new GridBagLayout();
+        gbl_Adress.columnWidths = new int[] {100, 500};
+        gbl_Adress.rowHeights = new int[]{22, 0};
+        gbl_Adress.columnWeights = new double[]{0.0, 0.0};
+        gbl_Adress.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+        Adress.setLayout(gbl_Adress);
+        
+        lblNewLabel_5 = new JLabel("Adresse");
+        GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
+        gbc_lblNewLabel_5.anchor = GridBagConstraints.WEST;
+        gbc_lblNewLabel_5.insets = new Insets(0, 0, 0, 5);
+        gbc_lblNewLabel_5.gridx = 0;
+        gbc_lblNewLabel_5.gridy = 0;
+        Adress.add(lblNewLabel_5, gbc_lblNewLabel_5);
+        
+        textField_3 = new JTextField();
+        GridBagConstraints gbc_textField_3 = new GridBagConstraints();
+        gbc_textField_3.anchor = GridBagConstraints.WEST;
+        gbc_textField_3.gridx = 1;
+        gbc_textField_3.gridy = 0;
+        Adress.add(textField_3, gbc_textField_3);
+        textField_3.setColumns(10);
+        
+        Tel = new JPanel();
+        Details.add(Tel);
+        GridBagLayout gbl_Tel = new GridBagLayout();
+        gbl_Tel.columnWidths = new int[] {100, 500};
+        gbl_Tel.rowHeights = new int[]{22, 0};
+        gbl_Tel.columnWeights = new double[]{0.0, 0.0};
+        gbl_Tel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+        Tel.setLayout(gbl_Tel);
+        
+        lblNewLabel_6 = new JLabel("T\u00E9l\u00E9lphone");
+        GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
+        gbc_lblNewLabel_6.anchor = GridBagConstraints.WEST;
+        gbc_lblNewLabel_6.insets = new Insets(0, 0, 0, 5);
+        gbc_lblNewLabel_6.gridx = 0;
+        gbc_lblNewLabel_6.gridy = 0;
+        Tel.add(lblNewLabel_6, gbc_lblNewLabel_6);
+        
+        textField_4 = new JTextField();
+        GridBagConstraints gbc_textField_4 = new GridBagConstraints();
+        gbc_textField_4.anchor = GridBagConstraints.WEST;
+        gbc_textField_4.gridx = 1;
+        gbc_textField_4.gridy = 0;
+        Tel.add(textField_4, gbc_textField_4);
+        textField_4.setColumns(10);
+        
+        Matricule = new JPanel();
+        Details.add(Matricule);
+        GridBagLayout gbl_Matricule = new GridBagLayout();
+        gbl_Matricule.columnWidths = new int[] {100, 500};
+        gbl_Matricule.rowHeights = new int[]{22, 0};
+        gbl_Matricule.columnWeights = new double[]{0.0, 0.0};
+        gbl_Matricule.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+        Matricule.setLayout(gbl_Matricule);
+        
+        lblNewLabel_7 = new JLabel("Matricule");
+        GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
+        gbc_lblNewLabel_7.anchor = GridBagConstraints.WEST;
+        gbc_lblNewLabel_7.insets = new Insets(0, 0, 0, 5);
+        gbc_lblNewLabel_7.gridx = 0;
+        gbc_lblNewLabel_7.gridy = 0;
+        Matricule.add(lblNewLabel_7, gbc_lblNewLabel_7);
+        
+        textField_5 = new JTextField();
+        GridBagConstraints gbc_textField_5 = new GridBagConstraints();
+        gbc_textField_5.anchor = GridBagConstraints.WEST;
+        gbc_textField_5.gridx = 1;
+        gbc_textField_5.gridy = 0;
+        Matricule.add(textField_5, gbc_textField_5);
+        textField_5.setColumns(10);
+        
+        Calendar = new JPanel();
+        Details.add(Calendar);
+        GridBagLayout gbl_Calendar = new GridBagLayout();
+        gbl_Calendar.columnWidths = new int[] {100, 500};
+        gbl_Calendar.rowHeights = new int[]{402, 0};
+        gbl_Calendar.columnWeights = new double[]{0.0, 0.0};
+        gbl_Calendar.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+        Calendar.setLayout(gbl_Calendar);
+        
+        lblNewLabel_8 = new JLabel("Rendez-Vous");
+        GridBagConstraints gbc_lblNewLabel_8 = new GridBagConstraints();
+        gbc_lblNewLabel_8.anchor = GridBagConstraints.WEST;
+        gbc_lblNewLabel_8.insets = new Insets(0, 0, 0, 5);
+        gbc_lblNewLabel_8.gridx = 0;
+        gbc_lblNewLabel_8.gridy = 0;
+        Calendar.add(lblNewLabel_8, gbc_lblNewLabel_8);
+        
+        scrollPane_6 = new JScrollPane();
+        GridBagConstraints gbc_scrollPane_6 = new GridBagConstraints();
+        gbc_scrollPane_6.anchor = GridBagConstraints.WEST;
+        gbc_scrollPane_6.gridx = 1;
+        gbc_scrollPane_6.gridy = 0;
+        Calendar.add(scrollPane_6, gbc_scrollPane_6);
+        
+        calendar = new JTable();
+        scrollPane_6.setViewportView(calendar);
+        
+        JButton Save = new JButton("Enregistrer Modifications");
+        Details.add(Save);
+        Save.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        
+        scrollPane_1 = new JScrollPane();
+        tabbedPane.addTab("Clients", null, scrollPane_1, null);
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("File");
@@ -121,7 +381,6 @@ public class GestImmoGui extends javax.swing.JFrame {
         menuBar.add(helpMenu);
 
         setJMenuBar(menuBar);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -200,6 +459,41 @@ public class GestImmoGui extends javax.swing.JFrame {
     private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
-    // End of variables declaration                   
-
+    private JTabbedPane tabbedPane;
+    private JScrollPane scrollPane;
+    private JScrollPane scrollPane_1;
+    private JScrollPane scrollPane_2;
+    private JTabbedPane tabbedPane_1;
+    private JScrollPane scrollPane_3;
+    private JScrollPane scrollPane_4;
+    private JScrollPane scrollPane_5;
+    private JPanel panel;
+    private JPanel panel_1;
+    private JPanel Details;
+    private JLabel lblNewLabel;
+    private JList list;
+    private JLabel lblNewLabel_1;
+    private JTextField textField;
+    private JPanel FirstName;
+    private JLabel lblNewLabel_2;
+    private JTextField textField_1;
+    private JLabel lblNewLabel_3;
+    private JPanel Email;
+    private JLabel lblNewLabel_4;
+    private JTextField textField_2;
+    private JPanel Adress;
+    private JLabel lblNewLabel_5;
+    private JTextField textField_3;
+    private JPanel Tel;
+    private JLabel lblNewLabel_6;
+    private JTextField textField_4;
+    private JPanel Matricule;
+    private JLabel lblNewLabel_7;
+    private JTextField textField_5;
+    private JButton Del;
+    private JButton Create;
+    private JPanel Calendar;
+    private JLabel lblNewLabel_8;
+    private JScrollPane scrollPane_6;
+    private JTable calendar;
 }
