@@ -13,6 +13,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Font;
+import javax.swing.SwingConstants;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -88,46 +89,49 @@ public class GestImmoGui extends javax.swing.JFrame {
         
         tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         jScrollPane3.setViewportView(tabbedPane);
+   
         
+        
+        //TAB EMPLOYEES     
         scrollPane = new JScrollPane();
         tabbedPane.addTab("Employ\u00E9es", null, scrollPane, null);
         
-        panel = new JPanel();
-        scrollPane.setRowHeaderView(panel);
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        ListEmployee = new JPanel();
+        scrollPane.setRowHeaderView(ListEmployee);
+        ListEmployee.setLayout(new BoxLayout(ListEmployee, BoxLayout.Y_AXIS));
         
         lblNewLabel = new JLabel("Employ\u00E9es");
         lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
         lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         lblNewLabel.setAlignmentY(Component.TOP_ALIGNMENT);
-        panel.add(lblNewLabel);
+        ListEmployee.add(lblNewLabel);
         
         list = new JList();
         list.setAlignmentX(Component.LEFT_ALIGNMENT);
-        panel.add(list);
+        ListEmployee.add(list);
         
         Del = new JButton("Effacer");
         Del.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(Del);
+        ListEmployee.add(Del);
         
         Create = new JButton("Ajouter");
         Create.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(Create);
+        ListEmployee.add(Create);
         
-        panel_1 = new JPanel();
-        scrollPane.setColumnHeaderView(panel_1);
+        placeholder = new JPanel();
+        scrollPane.setColumnHeaderView(placeholder);
         
-        Details = new JPanel();
-        scrollPane.setViewportView(Details);
-        Details.setLayout(new BoxLayout(Details, BoxLayout.Y_AXIS));
+        DetailsCleints = new JPanel();
+        scrollPane.setViewportView(DetailsCleints);
+        DetailsCleints.setLayout(new BoxLayout(DetailsCleints, BoxLayout.Y_AXIS));
         
         lblNewLabel_1 = new JLabel("Details");
         lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
         lblNewLabel_1.setAlignmentX(0.5f);
-        Details.add(lblNewLabel_1);
+        DetailsCleints.add(lblNewLabel_1);
         
         JPanel Name = new JPanel();
-        Details.add(Name);
+        DetailsCleints.add(Name);
         GridBagLayout gbl_Name = new GridBagLayout();
         gbl_Name.columnWidths = new int[] {100, 500};
         gbl_Name.rowHeights = new int[]{22, 0};
@@ -146,14 +150,14 @@ public class GestImmoGui extends javax.swing.JFrame {
         textField = new JTextField();
         textField.setAlignmentX(Component.RIGHT_ALIGNMENT);
         GridBagConstraints gbc_textField = new GridBagConstraints();
-        gbc_textField.anchor = GridBagConstraints.WEST;
+        gbc_textField.fill = GridBagConstraints.HORIZONTAL;
         gbc_textField.gridx = 1;
         gbc_textField.gridy = 0;
         Name.add(textField, gbc_textField);
         textField.setColumns(10);
         
         FirstName = new JPanel();
-        Details.add(FirstName);
+        DetailsCleints.add(FirstName);
         GridBagLayout gbl_FirstName = new GridBagLayout();
         gbl_FirstName.columnWidths = new int[] {100, 500};
         gbl_FirstName.rowHeights = new int[]{22, 0};
@@ -171,6 +175,7 @@ public class GestImmoGui extends javax.swing.JFrame {
         
         textField_1 = new JTextField();
         GridBagConstraints gbc_textField_1 = new GridBagConstraints();
+        gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
         gbc_textField_1.anchor = GridBagConstraints.WEST;
         gbc_textField_1.gridx = 1;
         gbc_textField_1.gridy = 0;
@@ -178,7 +183,7 @@ public class GestImmoGui extends javax.swing.JFrame {
         textField_1.setColumns(10);
         
         Email = new JPanel();
-        Details.add(Email);
+        DetailsCleints.add(Email);
         GridBagLayout gbl_Email = new GridBagLayout();
         gbl_Email.columnWidths = new int[] {100, 500};
         gbl_Email.rowHeights = new int[]{22, 0};
@@ -196,6 +201,7 @@ public class GestImmoGui extends javax.swing.JFrame {
         
         textField_2 = new JTextField();
         GridBagConstraints gbc_textField_2 = new GridBagConstraints();
+        gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
         gbc_textField_2.anchor = GridBagConstraints.WEST;
         gbc_textField_2.gridx = 1;
         gbc_textField_2.gridy = 0;
@@ -203,7 +209,7 @@ public class GestImmoGui extends javax.swing.JFrame {
         textField_2.setColumns(10);
         
         Adress = new JPanel();
-        Details.add(Adress);
+        DetailsCleints.add(Adress);
         GridBagLayout gbl_Adress = new GridBagLayout();
         gbl_Adress.columnWidths = new int[] {100, 500};
         gbl_Adress.rowHeights = new int[]{22, 0};
@@ -221,6 +227,7 @@ public class GestImmoGui extends javax.swing.JFrame {
         
         textField_3 = new JTextField();
         GridBagConstraints gbc_textField_3 = new GridBagConstraints();
+        gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
         gbc_textField_3.anchor = GridBagConstraints.WEST;
         gbc_textField_3.gridx = 1;
         gbc_textField_3.gridy = 0;
@@ -228,7 +235,7 @@ public class GestImmoGui extends javax.swing.JFrame {
         textField_3.setColumns(10);
         
         Tel = new JPanel();
-        Details.add(Tel);
+        DetailsCleints.add(Tel);
         GridBagLayout gbl_Tel = new GridBagLayout();
         gbl_Tel.columnWidths = new int[] {100, 500};
         gbl_Tel.rowHeights = new int[]{22, 0};
@@ -246,6 +253,7 @@ public class GestImmoGui extends javax.swing.JFrame {
         
         textField_4 = new JTextField();
         GridBagConstraints gbc_textField_4 = new GridBagConstraints();
+        gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
         gbc_textField_4.anchor = GridBagConstraints.WEST;
         gbc_textField_4.gridx = 1;
         gbc_textField_4.gridy = 0;
@@ -253,7 +261,7 @@ public class GestImmoGui extends javax.swing.JFrame {
         textField_4.setColumns(10);
         
         Matricule = new JPanel();
-        Details.add(Matricule);
+        DetailsCleints.add(Matricule);
         GridBagLayout gbl_Matricule = new GridBagLayout();
         gbl_Matricule.columnWidths = new int[] {100, 500};
         gbl_Matricule.rowHeights = new int[]{22, 0};
@@ -271,6 +279,7 @@ public class GestImmoGui extends javax.swing.JFrame {
         
         textField_5 = new JTextField();
         GridBagConstraints gbc_textField_5 = new GridBagConstraints();
+        gbc_textField_5.fill = GridBagConstraints.HORIZONTAL;
         gbc_textField_5.anchor = GridBagConstraints.WEST;
         gbc_textField_5.gridx = 1;
         gbc_textField_5.gridy = 0;
@@ -278,7 +287,7 @@ public class GestImmoGui extends javax.swing.JFrame {
         textField_5.setColumns(10);
         
         Calendar = new JPanel();
-        Details.add(Calendar);
+        DetailsCleints.add(Calendar);
         GridBagLayout gbl_Calendar = new GridBagLayout();
         gbl_Calendar.columnWidths = new int[] {100, 500};
         gbl_Calendar.rowHeights = new int[]{402, 0};
@@ -296,6 +305,7 @@ public class GestImmoGui extends javax.swing.JFrame {
         
         scrollPane_6 = new JScrollPane();
         GridBagConstraints gbc_scrollPane_6 = new GridBagConstraints();
+        gbc_scrollPane_6.fill = GridBagConstraints.HORIZONTAL;
         gbc_scrollPane_6.anchor = GridBagConstraints.WEST;
         gbc_scrollPane_6.gridx = 1;
         gbc_scrollPane_6.gridy = 0;
@@ -305,13 +315,47 @@ public class GestImmoGui extends javax.swing.JFrame {
         scrollPane_6.setViewportView(calendar);
         
         JButton Save = new JButton("Enregistrer Modifications");
-        Details.add(Save);
+        DetailsCleints.add(Save);
         Save.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         
+        //TAB CLIENTS
         scrollPane_1 = new JScrollPane();
         tabbedPane.addTab("Clients", null, scrollPane_1, null);
+        
+        ListClient = new JPanel();
+        scrollPane_1.setRowHeaderView(ListClient);
+        ListClient.setLayout(new BoxLayout(ListClient, BoxLayout.Y_AXIS));
+        
+        lblNewLabel_9 = new JLabel("Clients");
+        lblNewLabel_9.setAlignmentX(0.5f);
+        lblNewLabel_9.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewLabel_9.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        ListClient.add(lblNewLabel_9);
+        
+        list_1 = new JList();
+        ListClient.add(list_1);
+        
+        btnNewButton = new JButton("Ajouter");
+        btnNewButton.setAlignmentX(0.5f);
+        ListClient.add(btnNewButton);
+        
+        btnNewButton_1 = new JButton("Supprimer");
+        btnNewButton_1.setAlignmentX(0.5f);
+        ListClient.add(btnNewButton_1);
+        
+        placeholder2 = new JPanel();
+        scrollPane_1.setColumnHeaderView(placeholder2);
+        
+        DetailsClients = new JPanel();
+        scrollPane_1.setViewportView(DetailsClients);
 
+        
+        
+        
+        
+        
+        //FILE MENU
         fileMenu.setMnemonic('f');
         fileMenu.setText("File");
 
@@ -460,9 +504,9 @@ public class GestImmoGui extends javax.swing.JFrame {
     private JScrollPane scrollPane_3;
     private JScrollPane scrollPane_4;
     private JScrollPane scrollPane_5;
-    private JPanel panel;
-    private JPanel panel_1;
-    private JPanel Details;
+    private JPanel ListEmployee;
+    private JPanel placeholder;
+    private JPanel DetailsCleints;
     private JLabel lblNewLabel;
     private JList list;
     private JLabel lblNewLabel_1;
@@ -489,4 +533,11 @@ public class GestImmoGui extends javax.swing.JFrame {
     private JLabel lblNewLabel_8;
     private JScrollPane scrollPane_6;
     private JTable calendar;
+    private JPanel ListClient;
+    private JPanel placeholder2;
+    private JPanel DetailsClients;
+    private JLabel lblNewLabel_9;
+    private JList list_1;
+    private JButton btnNewButton;
+    private JButton btnNewButton_1;
 }
