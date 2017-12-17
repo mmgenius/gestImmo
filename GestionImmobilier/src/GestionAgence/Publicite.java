@@ -6,6 +6,7 @@ public class Publicite {
 	public enum TypePub {Journal, Tele, Annonce};
 	private TypePub type;
 	private ArrayList<Document> docs;
+	private int idBien;
 	
 	public void modifier(Document doc) {
 		

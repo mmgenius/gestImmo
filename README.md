@@ -12,4 +12,22 @@ de Gemmnius and Simon The Sorcerer.
 - Panel:	p+Nom
 - Checkbox: chk+Nom
 - Combobox: c+Nom
+- List:		li+Nom
 ...
+
+## Serialization and Deserialization
+- List of Employees
+- List of Clients
+- List of RDV
+- List of Publicites
+- List of TraceDeVente
+- List of PromesseVente
+
+Every item has its own file(path)
+
+### Order of Deserialization:
+1 List of Employees
+2 List of Clients (no need for biens because they are stored in Clients (no Bien without its Client)
+4 List of Mandats (they have a reference to the Bien that must be loaded previously
+5 List of RDV (needs references of biens and Clients)
+6 List of Pubs (needs references of biens)

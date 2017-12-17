@@ -1,11 +1,12 @@
 package GestionPersonne;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 import Outils.Adresse;
 
-public class EmployeeAgence extends Personne{
+public class EmployeeAgence extends Personne implements Serializable{
 	private ArrayList<GregorianCalendar> calendrier;
 	private int matricule;
 
