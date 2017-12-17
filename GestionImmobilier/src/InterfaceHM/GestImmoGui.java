@@ -18,6 +18,8 @@ import java.awt.GridLayout;
 import javax.swing.JFormattedTextField;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
+import javax.swing.JCheckBox;
+import javax.swing.JSeparator;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -244,11 +246,314 @@ public class GestImmoGui extends javax.swing.JFrame {
         gbc_comboBox_2.gridy = 0;
         pPropertyMeeting.add(comboBox_2, gbc_comboBox_2);
         
+        bEnregistrerRDV = new JButton("Enregistrer");
+        bEnregistrerRDV.setAlignmentX(0.5f);
+        pDetailsMeeting.add(bEnregistrerRDV);
+        
         scrollPane_4 = new JScrollPane();
         tabbedPane_1.addTab("Mandats", null, scrollPane_4, null);
         
+        pListMandats = new JPanel();
+        scrollPane_4.setRowHeaderView(pListMandats);
+        pListMandats.setLayout(new BoxLayout(pListMandats, BoxLayout.Y_AXIS));
+        
+        lListMandats = new JLabel("Mandats");
+        lListMandats.setAlignmentX(0.5f);
+        lListMandats.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        pListMandats.add(lListMandats);
+        
+        listMandats = new JList();
+        pListMandats.add(listMandats);
+        
+        bAjouterMandat = new JButton("Ajouter");
+        bAjouterMandat.setAlignmentX(0.5f);
+        pListMandats.add(bAjouterMandat);
+        
+        bSupprimerMandat = new JButton("Supprimer");
+        bSupprimerMandat.setAlignmentX(0.5f);
+        pListMandats.add(bSupprimerMandat);
+        
+        pPlaceholder = new JPanel();
+        scrollPane_4.setColumnHeaderView(pPlaceholder);
+        
+        pDetailsMandats = new JPanel();
+        scrollPane_4.setViewportView(pDetailsMandats);
+        pDetailsMandats.setLayout(new BoxLayout(pDetailsMandats, BoxLayout.Y_AXIS));
+        
+        lMandatDetails = new JLabel("Details");
+        lMandatDetails.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        lMandatDetails.setAlignmentX(0.5f);
+        pDetailsMandats.add(lMandatDetails);
+        
+        pMandatDateSignature = new JPanel();
+        pDetailsMandats.add(pMandatDateSignature);
+        GridBagLayout gbl_pMandatDateSignature = new GridBagLayout();
+        gbl_pMandatDateSignature.columnWidths = new int[] {100, 500};
+        gbl_pMandatDateSignature.rowHeights = new int[] {22};
+        gbl_pMandatDateSignature.columnWeights = new double[]{1.0, 0.0};
+        gbl_pMandatDateSignature.rowWeights = new double[]{0.0};
+        pMandatDateSignature.setLayout(gbl_pMandatDateSignature);
+        
+        lDateSignatureMandat = new JLabel("Date de Signature");
+        GridBagConstraints gbc_lDateSignatureMandat = new GridBagConstraints();
+        gbc_lDateSignatureMandat.anchor = GridBagConstraints.WEST;
+        gbc_lDateSignatureMandat.insets = new Insets(0, 0, 5, 0);
+        gbc_lDateSignatureMandat.gridx = 0;
+        gbc_lDateSignatureMandat.gridy = 0;
+        pMandatDateSignature.add(lDateSignatureMandat, gbc_lDateSignatureMandat);
+        
+        tDateSignature = new JTextField();
+        GridBagConstraints gbc_tDateSignature = new GridBagConstraints();
+        gbc_tDateSignature.weightx = 1.0;
+        gbc_tDateSignature.anchor = GridBagConstraints.WEST;
+        gbc_tDateSignature.fill = GridBagConstraints.HORIZONTAL;
+        gbc_tDateSignature.gridx = 1;
+        gbc_tDateSignature.gridy = 0;
+        pMandatDateSignature.add(tDateSignature, gbc_tDateSignature);
+        tDateSignature.setColumns(10);
+        
+        pMandatDuree = new JPanel();
+        pDetailsMandats.add(pMandatDuree);
+        GridBagLayout gbl_pMandatDuree = new GridBagLayout();
+        gbl_pMandatDuree.columnWidths = new int[] {100, 500};
+        gbl_pMandatDuree.rowHeights = new int[] {22};
+        gbl_pMandatDuree.columnWeights = new double[]{1.0, 0.0};
+        gbl_pMandatDuree.rowWeights = new double[]{0.0};
+        pMandatDuree.setLayout(gbl_pMandatDuree);
+        
+        lMandatDuree = new JLabel("New label");
+        GridBagConstraints gbc_lMandatDuree = new GridBagConstraints();
+        gbc_lMandatDuree.anchor = GridBagConstraints.WEST;
+        gbc_lMandatDuree.insets = new Insets(0, 0, 5, 0);
+        gbc_lMandatDuree.gridx = 0;
+        gbc_lMandatDuree.gridy = 0;
+        pMandatDuree.add(lMandatDuree, gbc_lMandatDuree);
+        
+        tMandatDuree = new JTextField();
+        GridBagConstraints gbc_tMandatDuree = new GridBagConstraints();
+        gbc_tMandatDuree.weightx = 1.0;
+        gbc_tMandatDuree.fill = GridBagConstraints.HORIZONTAL;
+        gbc_tMandatDuree.gridx = 1;
+        gbc_tMandatDuree.gridy = 0;
+        pMandatDuree.add(tMandatDuree, gbc_tMandatDuree);
+        tMandatDuree.setColumns(10);
+        
+        pMandatSigne = new JPanel();
+        pDetailsMandats.add(pMandatSigne);
+        GridBagLayout gbl_pMandatSigne = new GridBagLayout();
+        gbl_pMandatSigne.columnWidths = new int[] {100, 500};
+        gbl_pMandatSigne.rowHeights = new int[] {22};
+        gbl_pMandatSigne.columnWeights = new double[]{0.0, 0.0};
+        gbl_pMandatSigne.rowWeights = new double[]{0.0};
+        pMandatSigne.setLayout(gbl_pMandatSigne);
+        
+        lSignee = new JLabel("Sign\u00E9e?");
+        GridBagConstraints gbc_lSignee = new GridBagConstraints();
+        gbc_lSignee.weightx = 1.0;
+        gbc_lSignee.anchor = GridBagConstraints.WEST;
+        gbc_lSignee.insets = new Insets(0, 0, 5, 0);
+        gbc_lSignee.gridx = 0;
+        gbc_lSignee.gridy = 0;
+        pMandatSigne.add(lSignee, gbc_lSignee);
+        
+        chkSignee = new JCheckBox("");
+        GridBagConstraints gbc_chkSignee = new GridBagConstraints();
+        gbc_chkSignee.anchor = GridBagConstraints.WEST;
+        gbc_chkSignee.weightx = 1.0;
+        gbc_chkSignee.gridx = 1;
+        gbc_chkSignee.gridy = 0;
+        pMandatSigne.add(chkSignee, gbc_chkSignee);
+        
+        pMandatBien = new JPanel();
+        pDetailsMandats.add(pMandatBien);
+        GridBagLayout gbl_pMandatBien = new GridBagLayout();
+        gbl_pMandatBien.columnWidths = new int[] {100, 500};
+        gbl_pMandatBien.rowHeights = new int[] {22};
+        gbl_pMandatBien.columnWeights = new double[]{1.0, 0.0};
+        gbl_pMandatBien.rowWeights = new double[]{0.0};
+        pMandatBien.setLayout(gbl_pMandatBien);
+        
+        lMandatBien = new JLabel("Bien");
+        GridBagConstraints gbc_lMandatBien = new GridBagConstraints();
+        gbc_lMandatBien.weightx = 1.0;
+        gbc_lMandatBien.anchor = GridBagConstraints.WEST;
+        gbc_lMandatBien.insets = new Insets(0, 0, 5, 0);
+        gbc_lMandatBien.gridx = 0;
+        gbc_lMandatBien.gridy = 0;
+        pMandatBien.add(lMandatBien, gbc_lMandatBien);
+        
+        cMandatBien = new JComboBox();
+        GridBagConstraints gbc_cMandatBien = new GridBagConstraints();
+        gbc_cMandatBien.anchor = GridBagConstraints.WEST;
+        gbc_cMandatBien.weightx = 1.0;
+        gbc_cMandatBien.fill = GridBagConstraints.HORIZONTAL;
+        gbc_cMandatBien.gridx = 1;
+        gbc_cMandatBien.gridy = 0;
+        pMandatBien.add(cMandatBien, gbc_cMandatBien);
+        
+        pMandatClient = new JPanel();
+        pDetailsMandats.add(pMandatClient);
+        GridBagLayout gbl_pMandatClient = new GridBagLayout();
+        gbl_pMandatClient.columnWidths = new int[] {100, 500};
+        gbl_pMandatClient.rowHeights = new int[] {22};
+        gbl_pMandatClient.columnWeights = new double[]{1.0, 0.0};
+        gbl_pMandatClient.rowWeights = new double[]{0.0};
+        pMandatClient.setLayout(gbl_pMandatClient);
+        
+        lClientMandat = new JLabel("Client");
+        GridBagConstraints gbc_lClientMandat = new GridBagConstraints();
+        gbc_lClientMandat.anchor = GridBagConstraints.WEST;
+        gbc_lClientMandat.weightx = 1.0;
+        gbc_lClientMandat.insets = new Insets(0, 0, 5, 0);
+        gbc_lClientMandat.gridx = 0;
+        gbc_lClientMandat.gridy = 0;
+        pMandatClient.add(lClientMandat, gbc_lClientMandat);
+        
+        cClientMandat = new JComboBox();
+        GridBagConstraints gbc_cClientMandat = new GridBagConstraints();
+        gbc_cClientMandat.weightx = 1.0;
+        gbc_cClientMandat.fill = GridBagConstraints.HORIZONTAL;
+        gbc_cClientMandat.gridx = 1;
+        gbc_cClientMandat.gridy = 0;
+        pMandatClient.add(cClientMandat, gbc_cClientMandat);
+        
+        bSaveMandat = new JButton("Enregistrer");
+        bSaveMandat.setAlignmentX(0.5f);
+        pDetailsMandats.add(bSaveMandat);
+        
         scrollPane_5 = new JScrollPane();
         tabbedPane_1.addTab("Publicit\u00E9s", null, scrollPane_5, null);
+        
+        pListPubs = new JPanel();
+        scrollPane_5.setRowHeaderView(pListPubs);
+        pListPubs.setLayout(new BoxLayout(pListPubs, BoxLayout.Y_AXIS));
+        
+        lPubsList = new JLabel("Publicit\u00E9s");
+        lPubsList.setAlignmentX(0.5f);
+        lPubsList.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        pListPubs.add(lPubsList);
+        
+        listPubs = new JList();
+        pListPubs.add(listPubs);
+        
+        baddPub = new JButton("Ajouter");
+        baddPub.setAlignmentX(0.5f);
+        pListPubs.add(baddPub);
+        
+        bdelPub = new JButton("New button");
+        bdelPub.setAlignmentX(0.5f);
+        pListPubs.add(bdelPub);
+        
+        pPlaceholderPubs = new JPanel();
+        scrollPane_5.setColumnHeaderView(pPlaceholderPubs);
+        
+        pDetails = new JPanel();
+        scrollPane_5.setViewportView(pDetails);
+        pDetails.setLayout(new BoxLayout(pDetails, BoxLayout.Y_AXIS));
+        
+        lDetailsPubs = new JLabel("Details");
+        lDetailsPubs.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        lDetailsPubs.setAlignmentX(0.5f);
+        pDetails.add(lDetailsPubs);
+        
+        pTypePub = new JPanel();
+        pDetails.add(pTypePub);
+        GridBagLayout gbl_pTypePub = new GridBagLayout();
+        gbl_pTypePub.columnWidths = new int[] {100, 500};
+        gbl_pTypePub.rowHeights = new int[]{0, 0};
+        gbl_pTypePub.columnWeights = new double[]{0.0, 1.0};
+        gbl_pTypePub.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+        pTypePub.setLayout(gbl_pTypePub);
+        
+        lblNewLabel_18 = new JLabel("Type de Pub");
+        GridBagConstraints gbc_lblNewLabel_18 = new GridBagConstraints();
+        gbc_lblNewLabel_18.weightx = 1.0;
+        gbc_lblNewLabel_18.insets = new Insets(0, 0, 0, 5);
+        gbc_lblNewLabel_18.anchor = GridBagConstraints.WEST;
+        gbc_lblNewLabel_18.gridx = 0;
+        gbc_lblNewLabel_18.gridy = 0;
+        pTypePub.add(lblNewLabel_18, gbc_lblNewLabel_18);
+        
+        comboBox_5 = new JComboBox();
+        GridBagConstraints gbc_comboBox_5 = new GridBagConstraints();
+        gbc_comboBox_5.weightx = 1.0;
+        gbc_comboBox_5.fill = GridBagConstraints.HORIZONTAL;
+        gbc_comboBox_5.gridx = 1;
+        gbc_comboBox_5.gridy = 0;
+        pTypePub.add(comboBox_5, gbc_comboBox_5);
+        
+        pPublished = new JPanel();
+        pDetails.add(pPublished);
+        GridBagLayout gbl_pPublished = new GridBagLayout();
+        gbl_pPublished.columnWidths = new int[] {100, 500};
+        gbl_pPublished.rowHeights = new int[]{25, 0};
+        gbl_pPublished.columnWeights = new double[]{0.0, 0.0};
+        gbl_pPublished.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+        pPublished.setLayout(gbl_pPublished);
+        
+        lPublished = new JLabel("Publi\u00E9?");
+        GridBagConstraints gbc_lPublished = new GridBagConstraints();
+        gbc_lPublished.weightx = 1.0;
+        gbc_lPublished.fill = GridBagConstraints.BOTH;
+        gbc_lPublished.insets = new Insets(0, 0, 0, 5);
+        gbc_lPublished.gridx = 0;
+        gbc_lPublished.gridy = 0;
+        pPublished.add(lPublished, gbc_lPublished);
+        
+        chckbxNewCheckBox_1 = new JCheckBox("");
+        GridBagConstraints gbc_chckbxNewCheckBox_1 = new GridBagConstraints();
+        gbc_chckbxNewCheckBox_1.weightx = 1.0;
+        gbc_chckbxNewCheckBox_1.fill = GridBagConstraints.BOTH;
+        gbc_chckbxNewCheckBox_1.gridx = 1;
+        gbc_chckbxNewCheckBox_1.gridy = 0;
+        pPublished.add(chckbxNewCheckBox_1, gbc_chckbxNewCheckBox_1);
+        
+        separator_1 = new JSeparator();
+        pDetails.add(separator_1);
+        
+        pDocs = new JPanel();
+        pDetails.add(pDocs);
+        GridBagLayout gbl_pDocs = new GridBagLayout();
+        gbl_pDocs.columnWidths = new int[] {100, 400, 100};
+        gbl_pDocs.rowHeights = new int[] {0, 22, 0};
+        gbl_pDocs.columnWeights = new double[]{1.0, 0.0, 0.0};
+        gbl_pDocs.rowWeights = new double[]{0.0, 1.0, 1.0};
+        pDocs.setLayout(gbl_pDocs);
+        
+        lDocs = new JLabel("Documents associ\u00E9s");
+        GridBagConstraints gbc_lDocs = new GridBagConstraints();
+        gbc_lDocs.weightx = 1.0;
+        gbc_lDocs.insets = new Insets(0, 0, 5, 5);
+        gbc_lDocs.fill = GridBagConstraints.BOTH;
+        gbc_lDocs.gridx = 0;
+        gbc_lDocs.gridy = 1;
+        pDocs.add(lDocs, gbc_lDocs);
+        
+        list_2 = new JList();
+        GridBagConstraints gbc_list_2 = new GridBagConstraints();
+        gbc_list_2.insets = new Insets(0, 0, 5, 5);
+        gbc_list_2.weightx = 1.0;
+        gbc_list_2.fill = GridBagConstraints.BOTH;
+        gbc_list_2.gridx = 1;
+        gbc_list_2.gridy = 1;
+        pDocs.add(list_2, gbc_list_2);
+        
+        panel_3 = new JPanel();
+        GridBagConstraints gbc_panel_3 = new GridBagConstraints();
+        gbc_panel_3.insets = new Insets(0, 0, 5, 0);
+        gbc_panel_3.gridy = 1;
+        gbc_panel_3.fill = GridBagConstraints.BOTH;
+        gbc_panel_3.gridx = 2;
+        pDocs.add(panel_3, gbc_panel_3);
+        panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.Y_AXIS));
+        
+        bAddDoc = new JButton("Ajouter");
+        bAddDoc.setAlignmentX(0.5f);
+        panel_3.add(bAddDoc);
+        
+        bDelDoc = new JButton("Supprimer");
+        bDelDoc.setAlignmentX(0.5f);
+        panel_3.add(bDelDoc);
         jTabbedPane2.addTab("Biens", jScrollPane2);
         jTabbedPane2.addTab("Ventes", jScrollPane4);
 
@@ -269,11 +574,11 @@ public class GestImmoGui extends javax.swing.JFrame {
         ScrollEmployees.setRowHeaderView(ListEmployee);
         ListEmployee.setLayout(new BoxLayout(ListEmployee, BoxLayout.Y_AXIS));
         
-        lblNewLabel = new JLabel("Employ\u00E9es");
-        lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-        lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        lblNewLabel.setAlignmentY(Component.TOP_ALIGNMENT);
-        ListEmployee.add(lblNewLabel);
+        lEmployees = new JLabel("Employ\u00E9es");
+        lEmployees.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        lEmployees.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lEmployees.setAlignmentY(Component.TOP_ALIGNMENT);
+        ListEmployee.add(lEmployees);
         
         list = new JList();
         list.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -848,7 +1153,7 @@ public class GestImmoGui extends javax.swing.JFrame {
     private JPanel ListEmployee;
     private JPanel placeholder;
     private JPanel DetailsCleints;
-    private JLabel lblNewLabel;
+    private JLabel lEmployees;
     private JList list;
     private JLabel lblNewLabel_1;
     private JTextField textField;
@@ -925,4 +1230,50 @@ public class GestImmoGui extends javax.swing.JFrame {
     private JPanel pPropertyMeeting;
     private JLabel lPropertyMeeting;
     private JComboBox comboBox_2;
+    private JButton bEnregistrerRDV;
+    private JPanel pListMandats;
+    private JPanel pPlaceholder;
+    private JPanel pDetailsMandats;
+    private JLabel lListMandats;
+    private JList listMandats;
+    private JButton bAjouterMandat;
+    private JButton bSupprimerMandat;
+    private JLabel lMandatDetails;
+    private JPanel pMandatDateSignature;
+    private JPanel pMandatDuree;
+    private JPanel pMandatSigne;
+    private JPanel pMandatBien;
+    private JPanel pMandatClient;
+    private JLabel lDateSignatureMandat;
+    private JTextField tDateSignature;
+    private JLabel lMandatDuree;
+    private JTextField tMandatDuree;
+    private JLabel lSignee;
+    private JCheckBox chkSignee;
+    private JLabel lMandatBien;
+    private JComboBox cMandatBien;
+    private JLabel lClientMandat;
+    private JComboBox cClientMandat;
+    private JPanel pListPubs;
+    private JPanel pPlaceholderPubs;
+    private JPanel pDetails;
+    private JLabel lPubsList;
+    private JList listPubs;
+    private JButton baddPub;
+    private JButton bdelPub;
+    private JLabel lDetailsPubs;
+    private JPanel pTypePub;
+    private JPanel pPublished;
+    private JPanel pDocs;
+    private JLabel lblNewLabel_18;
+    private JComboBox comboBox_5;
+    private JLabel lPublished;
+    private JCheckBox chckbxNewCheckBox_1;
+    private JLabel lDocs;
+    private JList list_2;
+    private JPanel panel_3;
+    private JButton bDelDoc;
+    private JButton bAddDoc;
+    private JSeparator separator_1;
+    private JButton bSaveMandat;
 }
