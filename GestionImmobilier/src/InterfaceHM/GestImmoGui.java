@@ -45,6 +45,7 @@ import java.util.GregorianCalendar;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.event.ListSelectionEvent;
 
 /*
@@ -91,15 +92,17 @@ public class GestImmoGui extends javax.swing.JFrame {
     	try ( ObjectInputStream is = new ObjectInputStream(new FileInputStream("Employees.dat")) ) {
     		listEmployees = (ArrayList<EmployeeAgence>)is.readObject();
     	} catch (IOException e) {
+    		listEmployees = new ArrayList<EmployeeAgence>();
+    		System.out.println("capute");
     		throw new Exception("Employees.dat");
+    		
     	}
-    	System.out.println(listEmployees.size()+"");
     }
     private void saveEmployees() throws Exception{
     	try ( ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("Employees.dat")) ) {
     		os.writeObject(listEmployees);
     		} catch (IOException e) {
-    			throw new Exception("Employees.dat");
+    			throw new Exception(e.getCause());
     		}	
     }
     private void clearEmployeeDetails() {
@@ -111,7 +114,9 @@ public class GestImmoGui extends javax.swing.JFrame {
     	textField_5.setText("");
     }
     private void refreshEmployeesList() {
-    	System.out.println(listEmployees.size());
+    	modEmployees.removeAllElements();
+    	for (EmployeeAgence e: listEmployees)
+    		modEmployees.addElement(e.getNom()+" "+e.getPrenom());
 
 
     }
@@ -650,14 +655,25 @@ public class GestImmoGui extends javax.swing.JFrame {
         modEmployees= new DefaultListModel();
 		liEmployee = new JList(modEmployees);
 		liEmployee.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent arg0) {
-				System.out.println(arg0.getFirstIndex()+"");
+			public void valueChanged(ListSelectionEvent e) {
+				try {
+					EmployeeAgence a = listEmployees.get(liEmployee.getSelectedIndex());
+					textField.setText(a.getNom());
+					textField_1.setText(a.getPrenom());
+					textField_2.setText(a.getEmail());
+					textField_3.setText(a.getAdresse().toString());
+					textField_4.setText(a.getTel());
+					textField_5.setText(a.getMatricule()+"");
+					ArrayList<String[]> cal = new ArrayList<>();
+					DefaultTableModel t = new DefaultTableModel();
+					for (RendezVous r : a.getCalendrier())
+						t.addRow(r.toArray());
+					calendar.setModel(t);
+				} catch (IndexOutOfBoundsException ex){
+					System.out.println("new entry");
+				}				
 			}
-		}.TOP_ALIGNMENT);
-        ListEmployee.add(lEmployees);
-		
-        modEmployees= new DefaultListModel();
-		liEmployee = new JList(modEmployees);
+		});
         liEmployee.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         ListEmployee.add(liEmployee);
         
@@ -666,12 +682,21 @@ public class GestImmoGui extends javax.swing.JFrame {
         	public void actionPerformed(ActionEvent arg0) {
         		modEmployees.addElement("<<Nouveau>>");
         		clearEmployeeDetails();
+        		liEmployee.setSelectedIndex(liEmployee.getLastVisibleIndex()+1);
         	}
         });
         CreateEmployee.setAlignmentX(Component.CENTER_ALIGNMENT);
         ListEmployee.add(CreateEmployee);
         
         Del = new JButton("Supprimer");
+        Del.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		if(liEmployee.getSelectedIndex()!=-1) {
+        			modEmployees.removeElementAt(liEmployee.getSelectedIndex());
+        			listEmployees.remove(liEmployee.getSelectedIndex());
+        		}
+        	}
+        });
         Del.setAlignmentX(Component.CENTER_ALIGNMENT);
         ListEmployee.add(Del);
         
@@ -874,16 +899,13 @@ public class GestImmoGui extends javax.swing.JFrame {
         Save.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
         		System.out.println("Saving...");
-        		ArrayList<GregorianCalendar> calendrier = null;
+        		ArrayList<RendezVous> calendrier = new ArrayList<>();
         		try {
         			Adresse a = new Adresse(textField_3.getText().split("\\."));
-        			final JFrame parent = new JFrame();
-        			JOptionPane.showMessageDialog(parent, a.toString());
         			int mat = Integer.parseInt(textField_5.getText());
         			EmployeeAgence e = new EmployeeAgence(a, textField_2.getText(), textField.getText(), textField_1.getText(), textField_4.getText(), calendrier, mat);
         			System.out.println(e.getEmail());
         			listEmployees.add(e);
-        			System.out.println("all right!");
         		} catch (Exception e){
         			final JFrame parent = new JFrame();
         			JOptionPane.showMessageDialog(parent, e.getMessage());
@@ -895,7 +917,7 @@ public class GestImmoGui extends javax.swing.JFrame {
                	 	final JFrame parent = new JFrame();
                	 	JOptionPane.showMessageDialog(parent, "Pas possible d'enregistrer le fichier "+e.getMessage());
         		}
-        		//refreshEmployeesList();
+        		refreshEmployeesList();
         	}
         });
         DetailsCleints.add(Save);
