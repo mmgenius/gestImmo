@@ -44,7 +44,7 @@ public class Adresse implements Serializable{
 	}
 	
 	public String toString() {
-		return this.num+" "+this.rue+ " "+this.codePostale+ " "+this.pays;
+		return this.num+"|"+this.rue+ "|"+this.codePostale+ "|"+this.pays;
 	}
 	
 }
