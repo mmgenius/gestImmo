@@ -76,6 +76,8 @@ public class HMAgenceRendezVous extends javax.swing.JScrollPane {
     private JTextField textField;
 	
 	public HMAgenceRendezVous() {
+		
+		modRDVs = new DefaultListModel<String>();
 		addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent arg0) {
 				actionVisible();
@@ -142,7 +144,7 @@ public class HMAgenceRendezVous extends javax.swing.JScrollPane {
 		}		
 	}
 	private void reloadBiens() {
-		// load data, delete items, add all items in reloaded list
+		// TODO load data, delete items, add all items in reloaded list
 	}
 
 	private void reloadClients() {
@@ -152,7 +154,7 @@ public class HMAgenceRendezVous extends javax.swing.JScrollPane {
 			System.out.println("couldnt load any clients");
 			e.printStackTrace();
 		}
-		comboBox_1.removeAll();
+		comboBox_1.removeAllItems();
 		for(Client c: clients)
 			comboBox_1.addItem(c.getPrenom()+", "+c.getNom());
 		
@@ -165,7 +167,7 @@ public class HMAgenceRendezVous extends javax.swing.JScrollPane {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		comboBox.removeAll();
+		comboBox.removeAllItems();
 		for(EmployeeAgence e: employeesAgence)
 			comboBox.addItem(e.getNom() +", "+e.getPrenom());
 		

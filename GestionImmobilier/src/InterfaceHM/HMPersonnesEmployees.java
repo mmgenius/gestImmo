@@ -148,8 +148,11 @@ public class HMPersonnesEmployees extends javax.swing.JScrollPane{
 		}		
 	}
 	private void actionEnregistrer(ActionEvent arg0) {
+		
 		//enregistre un nouveau employee au le modifie
+		if(liEmployee.getSelectedIndex()!=-1) {
 		ArrayList<RendezVous> calendrier = new ArrayList<>();
+		
 		try {
 			Adresse a = new Adresse(textField_3.getText().split("\\|"));
 			int mat = Integer.parseInt(textField_5.getText());
@@ -172,6 +175,10 @@ public class HMPersonnesEmployees extends javax.swing.JScrollPane{
        	 	JOptionPane.showMessageDialog(parent, "Pas possible d'enregistrer le fichier "+e.getMessage());
 		}
 		refreshEmployeesList();
+		} else {
+			final JFrame parent = new JFrame();
+       	 	JOptionPane.showMessageDialog(parent, "Ca ne marche pas comme ca ici.Ajouter d'abord, ou choisir un a modifier.Bordel");
+		}
 		
 	}	
 	

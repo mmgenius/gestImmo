@@ -1,16 +1,27 @@
 package GestionAgence;
 
 public class Document {    
-	public Document(String contenu, Filetype type) {
+	public Document(String contenu, String type) {
 		super();
 		this.contenu = contenu;
 		this.type = type;
 	}
 
 	private String contenu; //filepath
-	private Filetype type;
+	public String getContenu() {
+		return contenu;
+	}
+
+	private String type;
 	
 	public void enregistrer() {
 		
+	}
+	@Override
+	public String toString() {
+		if(contenu.length()>10)
+			return contenu.substring(contenu.length()-10);
+		else 
+			return contenu;
 	}
 }
