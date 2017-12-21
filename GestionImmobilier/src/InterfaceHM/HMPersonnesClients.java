@@ -84,7 +84,7 @@ public class HMPersonnesClients extends javax.swing.JScrollPane {
 	private void actionVisible() {
 		//charger etat
 		try {
-        	loadEmployees();
+        	loadClients();
         }
         catch (Exception e) {
         	 final JFrame parent = new JFrame();
@@ -106,7 +106,7 @@ public class HMPersonnesClients extends javax.swing.JScrollPane {
 	}
 	private  void actionAjouter(ActionEvent arg0) {
 		modClients.addElement("<<Nouveau>>");
-		clearEmployeeDetails();
+		clearClientsDetails();
 		list_1.setSelectedIndex(list_1.getLastVisibleIndex()+1);
 	}
 	private void actionSupprimer(ActionEvent arg0) {
@@ -165,7 +165,7 @@ public class HMPersonnesClients extends javax.swing.JScrollPane {
 		
 	}	
 	
-	private void loadEmployees() throws Exception{
+	private void loadClients() throws Exception{
 	    try ( ObjectInputStream is = new ObjectInputStream(new FileInputStream("Clients.dat")) ) {
 	    		listClients = (ArrayList<Client>)is.readObject();
 	    } catch (IOException e) {
@@ -182,7 +182,7 @@ public class HMPersonnesClients extends javax.swing.JScrollPane {
     			throw new Exception(e.getCause());
     		}	
     }
-    private void clearEmployeeDetails() {
+    private void clearClientsDetails() {
     	textField_7.setText("");
     	textField_12.setText("");
     	textField_9.setText("");
@@ -194,8 +194,6 @@ public class HMPersonnesClients extends javax.swing.JScrollPane {
     	modClients.removeAllElements();
     	for (Client e: listClients)
     		modClients.addElement(e.getNom()+" "+e.getPrenom());
-
-
     }
     private int getNewID() {
     	int maxID = -1;
