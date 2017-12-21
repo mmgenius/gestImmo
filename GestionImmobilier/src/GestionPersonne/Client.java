@@ -4,6 +4,10 @@ import Outils.Adresse;
 
 public class Client extends Personne {
 	private int id;
+	
+	public int getId() {
+		return id;
+	}
 	private Role role;
 	
 	public Client(Adresse adresse, String email, String nom, String prenom, String tel, int id) {
