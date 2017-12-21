@@ -283,26 +283,7 @@ public class HMPersonnesEmployees extends javax.swing.JScrollPane{
 	        JButton Save = new JButton("Enregistrer Modifications");
 	        Save.addActionListener(new ActionListener() {
 	        	public void actionPerformed(ActionEvent arg0) {
-	        		System.out.println("Saving...");
-	        		ArrayList<RendezVous> calendrier = new ArrayList<>();
-	        		try {
-	        			Adresse a = new Adresse(textField_3.getText().split("\\."));
-	        			int mat = Integer.parseInt(textField_5.getText());
-	        			EmployeeAgence e = new EmployeeAgence(a, textField_2.getText(), textField.getText(), textField_1.getText(), textField_4.getText(), calendrier, mat);
-	        			System.out.println(e.getEmail());
-	        			listEmployees.add(e);
-	        		} catch (Exception e){
-	        			final JFrame parent = new JFrame();
-	        			JOptionPane.showMessageDialog(parent, e.getMessage());
-	        		}
-	        		try{
-	        			saveEmployees();
-	        			System.out.println("Saved successfully");
-	        		} catch (Exception e) {
-	               	 	final JFrame parent = new JFrame();
-	               	 	JOptionPane.showMessageDialog(parent, "Pas possible d'enregistrer le fichier "+e.getMessage());
-	        		}
-	        		refreshEmployeesList();
+	        		actionEnregistrer(arg0);
 	        	}
 	        });
 	        DetailsCleints.add(Save);
@@ -322,22 +303,7 @@ public class HMPersonnesEmployees extends javax.swing.JScrollPane{
 			liEmployee = new JList(modEmployees);
 			liEmployee.addListSelectionListener(new ListSelectionListener() {
 				public void valueChanged(ListSelectionEvent e) {
-					try {
-						EmployeeAgence a = listEmployees.get(liEmployee.getSelectedIndex());
-						textField.setText(a.getNom());
-						textField_1.setText(a.getPrenom());
-						textField_2.setText(a.getEmail());
-						textField_3.setText(a.getAdresse().toString());
-						textField_4.setText(a.getTel());
-						textField_5.setText(a.getMatricule()+"");
-						ArrayList<String[]> cal = new ArrayList<>();
-						DefaultTableModel t = new DefaultTableModel();
-						for (RendezVous r : a.getCalendrier())
-							t.addRow(r.toArray());
-						calendar.setModel(t);
-					} catch (IndexOutOfBoundsException ex){
-						System.out.println("new entry");
-					}				
+					actionChoisirAutre(e);
 				}
 			});
 	        liEmployee.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -346,9 +312,7 @@ public class HMPersonnesEmployees extends javax.swing.JScrollPane{
 	        CreateEmployee = new JButton("Ajouter");
 	        CreateEmployee.addActionListener(new ActionListener() {
 	        	public void actionPerformed(ActionEvent arg0) {
-	        		modEmployees.addElement("<<Nouveau>>");
-	        		clearEmployeeDetails();
-	        		liEmployee.setSelectedIndex(liEmployee.getLastVisibleIndex()+1);
+	        		actionAjouter(arg0);
 	        	}
 	        });
 	        CreateEmployee.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -357,46 +321,95 @@ public class HMPersonnesEmployees extends javax.swing.JScrollPane{
 	        Del = new JButton("Supprimer");
 	        Del.addActionListener(new ActionListener() {
 	        	public void actionPerformed(ActionEvent arg0) {
-	        		if(liEmployee.getSelectedIndex()!=-1) {
-	        			modEmployees.removeElementAt(liEmployee.getSelectedIndex());
-	        			listEmployees.remove(liEmployee.getSelectedIndex());
-	        		}
+	        		actionSupprimer(arg0);
 	        	}
 	        });
 	        Del.setAlignmentX(Component.CENTER_ALIGNMENT);
 	        ListEmployee.add(Del);
 	}
+	private  void actionAjouter(ActionEvent arg0) {
+		modEmployees.addElement("<<Nouveau>>");
+		clearEmployeeDetails();
+		liEmployee.setSelectedIndex(liEmployee.getLastVisibleIndex()+1);
+	}
+	private void actionSupprimer(ActionEvent arg0) {
+		if(liEmployee.getSelectedIndex()!=-1) {
+			modEmployees.removeElementAt(liEmployee.getSelectedIndex());
+			listEmployees.remove(liEmployee.getSelectedIndex());
+		}
+	}
+	private void actionChoisirAutre(ListSelectionEvent e) {
+		try {
+			EmployeeAgence a = listEmployees.get(liEmployee.getSelectedIndex());
+			textField.setText(a.getNom());
+			textField_1.setText(a.getPrenom());
+			textField_2.setText(a.getEmail());
+			textField_3.setText(a.getAdresse().toString());
+			textField_4.setText(a.getTel());
+			textField_5.setText(a.getMatricule()+"");
+			ArrayList<String[]> cal = new ArrayList<>();
+			DefaultTableModel t = new DefaultTableModel();
+			for (RendezVous r : a.getCalendrier())
+				t.addRow(r.toArray());
+			calendar.setModel(t);
+		} catch (IndexOutOfBoundsException ex){
+			System.out.println("new entry");
+		}		
+	}
+	private void actionEnregistrer(ActionEvent arg0) {
+		System.out.println("Saving...");
+		ArrayList<RendezVous> calendrier = new ArrayList<>();
+		try {
+			Adresse a = new Adresse(textField_3.getText().split("\\."));
+			int mat = Integer.parseInt(textField_5.getText());
+			EmployeeAgence e = new EmployeeAgence(a, textField_2.getText(), textField.getText(), textField_1.getText(), textField_4.getText(), calendrier, mat);
+			System.out.println(e.getEmail());
+			listEmployees.add(e);
+		} catch (Exception e){
+			final JFrame parent = new JFrame();
+			JOptionPane.showMessageDialog(parent, e.getMessage());
+		}
+		try{
+			saveEmployees();
+			System.out.println("Saved successfully");
+		} catch (Exception e) {
+       	 	final JFrame parent = new JFrame();
+       	 	JOptionPane.showMessageDialog(parent, "Pas possible d'enregistrer le fichier "+e.getMessage());
+		}
+		refreshEmployeesList();
+		
+	}	
 	
-	  private void loadEmployees() throws Exception{
-	    	try ( ObjectInputStream is = new ObjectInputStream(new FileInputStream("Employees.dat")) ) {
+	private void loadEmployees() throws Exception{
+	    try ( ObjectInputStream is = new ObjectInputStream(new FileInputStream("Employees.dat")) ) {
 	    		listEmployees = (ArrayList<EmployeeAgence>)is.readObject();
-	    	} catch (IOException e) {
+	    } catch (IOException e) {
 	    		listEmployees = new ArrayList<EmployeeAgence>();
 	    		System.out.println("capute");
 	    		throw new Exception("Employees.dat");
 	    		
-	    	}
 	    }
-	    private void saveEmployees() throws Exception{
-	    	try ( ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("Employees.dat")) ) {
-	    		os.writeObject(listEmployees);
-	    		} catch (IOException e) {
-	    			throw new Exception(e.getCause());
-	    		}	
-	    }
-	    private void clearEmployeeDetails() {
-	    	textField.setText("");
-	    	textField_1.setText("");
-	    	textField_2.setText("");
-	    	textField_3.setText("");
-	    	textField_4.setText("");
-	    	textField_5.setText("");
-	    }
-	    private void refreshEmployeesList() {
-	    	modEmployees.removeAllElements();
-	    	for (EmployeeAgence e: listEmployees)
-	    		modEmployees.addElement(e.getNom()+" "+e.getPrenom());
+	}
+    private void saveEmployees() throws Exception{
+    	try ( ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("Employees.dat")) ) {
+    		os.writeObject(listEmployees);
+    		} catch (IOException e) {
+    			throw new Exception(e.getCause());
+    		}	
+    }
+    private void clearEmployeeDetails() {
+    	textField.setText("");
+    	textField_1.setText("");
+    	textField_2.setText("");
+    	textField_3.setText("");
+    	textField_4.setText("");
+    	textField_5.setText("");
+    }
+    private void refreshEmployeesList() {
+    	modEmployees.removeAllElements();
+    	for (EmployeeAgence e: listEmployees)
+    		modEmployees.addElement(e.getNom()+" "+e.getPrenom());
 
 
-	    }
+    }
 }
