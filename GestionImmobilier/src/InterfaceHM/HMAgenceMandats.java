@@ -34,6 +34,8 @@ import GestionAgence.RendezVous;
 import GestionBien.Bien;
 import GestionPersonne.Client;
 import GestionPersonne.EmployeeAgence;
+import java.awt.event.ActionListener;
+import javax.swing.event.ListSelectionListener;
 
 public class HMAgenceMandats extends javax.swing.JScrollPane {
 	
@@ -138,43 +140,20 @@ public class HMAgenceMandats extends javax.swing.JScrollPane {
 			System.out.println("couldnt load any clients");
 			e.printStackTrace();
 		}
-		comboBox_1.removeAllItems();
+		cClientMandat.removeAllItems();
 		for(Client c: clients)
-			comboBox_1.addItem(c.getPrenom()+", "+c.getNom());
+			cClientMandat.addItem(c.getPrenom()+", "+c.getNom());
 		
 	}
 
 	private void actionEnregistrer(ActionEvent arg0) {
 		//enregistre un nouveau rdv ou le modifie
 		GregorianCalendar gc = null;
-		EmployeeAgence e = null;
 		Bien b = null;
 		Client c = null;
-		try {
-			String[] daymonth = formattedTextField.getText().split("\\/");
-			String[] yeartime = daymonth[2].split(",");
-			String[] time = yeartime[1].split("h");
-			
-			int day = Integer.parseInt(daymonth[0]);
-			int month = Integer.parseInt(daymonth[1]);
-			int year = Integer.parseInt(yeartime[0]);
-			int hour = Integer.parseInt(time[0]);
-			int minute = Integer.parseInt(time[1]);
-			
-			 gc = new GregorianCalendar(year, month, day, hour, minute);
-		} catch (Exception z){
-			final JFrame parent = new JFrame();
-			JOptionPane.showMessageDialog(parent, "Date Format must be: dd/mm/yyyy,hhhmm");
-		}
 		
 		String titre = textField.getText();
 		String description = textArea.getText();
-		try {
-			//employee
-			e = employeesAgence.get(comboBox.getSelectedIndex());
-		} catch (Exception a) {
-			System.out.println("pas d'employee");	
-		}
 		try {
 			//Bien
 			b = biens.get(comboBox_2.getSelectedIndex());
@@ -260,13 +239,28 @@ public class HMAgenceMandats extends javax.swing.JScrollPane {
         pListMandats.add(lListMandats);
         
         listMandats = new JList();
+        listMandats.addListSelectionListener(new ListSelectionListener() {
+        	public void valueChanged(ListSelectionEvent arg0) {
+        		actionChoisirAutre(arg0);
+        	}
+        });
         pListMandats.add(listMandats);
         
         bAjouterMandat = new JButton("Ajouter");
+        bAjouterMandat.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		actionAjouter(arg0);
+        	}
+        });
         bAjouterMandat.setAlignmentX(0.5f);
         pListMandats.add(bAjouterMandat);
         
         bSupprimerMandat = new JButton("Supprimer");
+        bSupprimerMandat.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		actionSupprimer(e);
+        	}
+        });
         bSupprimerMandat.setAlignmentX(0.5f);
         pListMandats.add(bSupprimerMandat);
         
@@ -318,7 +312,7 @@ public class HMAgenceMandats extends javax.swing.JScrollPane {
         gbl_pMandatDuree.rowWeights = new double[]{0.0};
         pMandatDuree.setLayout(gbl_pMandatDuree);
         
-        lMandatDuree = new JLabel("New label");
+        lMandatDuree = new JLabel("Dur\u00E9e en mois");
         GridBagConstraints gbc_lMandatDuree = new GridBagConstraints();
         gbc_lMandatDuree.anchor = GridBagConstraints.WEST;
         gbc_lMandatDuree.insets = new Insets(0, 0, 5, 0);
@@ -414,7 +408,12 @@ public class HMAgenceMandats extends javax.swing.JScrollPane {
         gbc_cClientMandat.gridy = 0;
         pMandatClient.add(cClientMandat, gbc_cClientMandat);
         
-        bSaveMandat = new JButton("Enregistrer");
+        bSaveMandat = new JButton("Enregistrer modifications");
+        bSaveMandat.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		actionEnregistrer(e);
+        	}
+        });
         bSaveMandat.setAlignmentX(0.5f);
         pDetailsMandats.add(bSaveMandat);
 	}
