@@ -2,10 +2,10 @@
 GestImmo is a scolary project in L3 MIASHS / Information
 by Gemmnius and Simon The Sorcerer.
 
-#expliquer comment produire le logiciel (éventuellement à partir d’Eclipse)
-1. clone the repository
-2. (yes really)
-3. that's all
+# expliquer comment produire le logiciel (éventuellement à partir d’Eclipse)
+1. clone the repository from within Eclipse (https://github.com/collab-uniba/socialcde4eclipse/wiki/How-to-import-a-GitHub-project-into-Eclipse)
+2. change into "Java" mode
+4. if you can't compile from source, you may need to add a Run Configuration
 
 
 ## Nomenclature Variables Interface Swing
