@@ -96,9 +96,13 @@ public class HMAgenceMandats extends javax.swing.JScrollPane {
         	 JOptionPane.showMessageDialog(parent, "Pas possible d ouvrir le fichier "+e.getMessage());
         	 //System.exit(1);
         }
+		try {
 		reloadClients();
-		reloadBiens();
-		
+		reloadBiens();		
+		} catch (Exception e) {
+       	 final JFrame parent = new JFrame();
+       	 JOptionPane.showMessageDialog(parent, "Pas possible d ouvrir le fichier "+e.getMessage());
+		}
 		refreshMandatList();
 		
 	}	
@@ -137,14 +141,9 @@ public class HMAgenceMandats extends javax.swing.JScrollPane {
 			System.out.println("new entry");
 		}		
 	}
-	private void reloadBiens() {
+	private void reloadBiens() throws Exception {
 		// load data, delete items, add all items in reloaded list
-		try {
-			loadBiens();
-		} catch (Exception e) {
-			System.out.println("couldnt load any biens");
-			e.printStackTrace();			
-		}
+		loadBiens();
 		cMandatBien.removeAllItems();
 		for(Bien b: biens)
 			cMandatBien.addItem(b);
@@ -250,11 +249,11 @@ public class HMAgenceMandats extends javax.swing.JScrollPane {
 	}	
 	    
 	private void loadBiens() throws Exception{
-	    try ( ObjectInputStream is = new ObjectInputStream(new FileInputStream("Biens.dat")) ) {
+	    try ( ObjectInputStream is = new ObjectInputStream(new FileInputStream("Maisons.dat")) ) {
     		biens = (ArrayList<Bien>)is.readObject();
 	    } catch (IOException e) {
 	    		biens = new ArrayList<Bien>();
-	    		throw new Exception("Biens.dat");	
+	    		throw new Exception("Maisons.dat");	
 	    }	    
 	}
     private void clearMandatDetails() {
@@ -276,7 +275,7 @@ public class HMAgenceMandats extends javax.swing.JScrollPane {
         lListMandats.setFont(new Font("Tahoma", Font.PLAIN, 20));
         pListMandats.add(lListMandats);
         
-        listMandats = new JList();
+        listMandats = new JList(modMandats);
         listMandats.addListSelectionListener(new ListSelectionListener() {
         	public void valueChanged(ListSelectionEvent arg0) {
         		actionChoisirAutre(arg0);

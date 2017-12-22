@@ -10,6 +10,17 @@ public class Bien implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	public Bien(int id, float prix, Adresse adresse, String orientation, GregorianCalendar dateDeDisponibilite,
+			GregorianCalendar dateDeVente) {
+		super();
+		this.id = id;
+		this.prix = prix;
+		this.adresse = adresse;
+		this.orientation = orientation;
+		this.dateDeDisponibilite = dateDeDisponibilite;
+		this.dateDeVente = dateDeVente;
+	}
+
 	private int id ; 
 	private float prix ; 
 	private Adresse adresse ; 
@@ -18,9 +29,11 @@ public class Bien implements Serializable{
 	private GregorianCalendar dateDeVente ;
 	
 	//This's the Constructor of this class
-	public Bien(int iden , float price, Adresse address, String Oriented, GregorianCalendar dispo, GregorianCalendar dateVente) {
+	//public Bien(int iden , float price, Adresse address, String Oriented, GregorianCalendar dispo, GregorianCalendar dateVente) {
+		//merci de rien avoir foutu dedans Mamadou -.-
+		//for christs sake
 		
-	}
+	//}
 	
 	//This method give you the part of company in sale business 
 	public float calculerCommission() {

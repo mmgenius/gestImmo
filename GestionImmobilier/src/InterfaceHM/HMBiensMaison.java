@@ -132,6 +132,15 @@ public class HMBiensMaison extends javax.swing.JScrollPane{
 		try {
 			Maison c = listMaisons.get(list_1.getSelectedIndex());
 			//set all fields with data from c
+			textField_7.setText(c.getTitre());
+			textField_12.setText(c.getMoyenChauffage());
+			textField_10.setText(c.getAdresse().toString());
+			textField_9.setText(c.getNombreEtage()+"");
+			textField_3.setText(c.getPrix()+"");
+			textField_2.setText(c.getOrientation());
+			textField_1.setText(c.getPrix()+"");
+			tMaisonSiren.setText(c.getSurfaceHabitable()+"");
+			tMaisonTel.setText(c.getNombrePiece()+"");
 		} catch (IndexOutOfBoundsException ex){
 			System.out.println("new entry");
 		}		
@@ -214,6 +223,10 @@ public class HMBiensMaison extends javax.swing.JScrollPane{
     	textField_10.setText("");
     	tMaisonTel.setText("");
     	tMaisonSiren.setText("");
+    	textField_1.setText("");
+    	textField_3.setText("");
+    	textField_2.setText("");    	
+    	textField.setText("");
     }
     private void refreshMaisonsList() {
     	modMaisons.removeAllElements();

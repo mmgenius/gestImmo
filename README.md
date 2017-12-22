@@ -21,7 +21,7 @@ by Gemmnius and Simon The Sorcerer.
 10. Let your pCA click on the downloaded file.
 11. Let our amazing implementation of the least pedagogical project ever blow your mind.
 
-*personal Computer Assistant. Person that helps perfect noobs using electric equipment.
+*personal Computer Assistant. Person that helps perfect noobs on how to use electric equipment.
 
 
 ## Nomenclature Variables Interface Swing

@@ -38,6 +38,7 @@ import GestionBien.Bien;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import javax.swing.JTextField;
+import java.awt.event.ActionListener;
 
 public class HMAgenceRendezVous extends javax.swing.JScrollPane {
 	private ArrayList<RendezVous> listRendezVous;	
@@ -101,11 +102,15 @@ public class HMAgenceRendezVous extends javax.swing.JScrollPane {
         	 JOptionPane.showMessageDialog(parent, "Pas possible d ouvrir le fichier "+e.getMessage());
         	 //System.exit(1);
         }
-    	
-    	reloadClients();
-    	reloadEmployees();
-		refreshRDVList();
-		reloadBiens();
+    	try {
+	    	reloadClients();
+	    	reloadEmployees();
+			refreshRDVList();
+			reloadBiens();
+    	} catch (Exception e) {
+    		 final JFrame parent = new JFrame();
+        	 JOptionPane.showMessageDialog(parent, "Pas possible d ouvrir le fichier "+e.getMessage());
+    	}
 		
 	}
 	private void actionHide() {
@@ -141,10 +146,17 @@ public class HMAgenceRendezVous extends javax.swing.JScrollPane {
 			textArea.setText(rdv.getDescription());
 		} catch (IndexOutOfBoundsException ex){
 			System.out.println("new entry");
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}		
 	}
-	private void reloadBiens() {
-		// TODO load data, delete items, add all items in reloaded list
+	private void reloadBiens() throws Exception {
+		// load data, delete items, add all items in reloaded list
+		loadBiens();
+		comboBox_2.removeAllItems();
+		for(Bien b: biens)
+			comboBox_2.addItem(b);
 	}
 
 	private void reloadClients() {
@@ -271,11 +283,11 @@ public class HMAgenceRendezVous extends javax.swing.JScrollPane {
 	}
 	    
 	private void loadBiens() throws Exception{
-	    try ( ObjectInputStream is = new ObjectInputStream(new FileInputStream("Biens.dat")) ) {
+	    try ( ObjectInputStream is = new ObjectInputStream(new FileInputStream("Maisons.dat")) ) {
     		biens = (ArrayList<Bien>)is.readObject();
 	    } catch (IOException e) {
 	    		biens = new ArrayList<Bien>();
-	    		throw new Exception("Biens.dat");	
+	    		throw new Exception("Maisons.dat");	
 	    }	    
 	}
     private void clearRDVDetails() {
@@ -317,10 +329,18 @@ public class HMAgenceRendezVous extends javax.swing.JScrollPane {
         panel_1.add(listMeetings);
         
         bAddMeeting = new JButton("Ajouter");
+        bAddMeeting.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        	}
+        });
         bAddMeeting.setAlignmentX(0.5f);
         panel_1.add(bAddMeeting);
         
         btnNewButton_2 = new JButton("Supprimer");
+        btnNewButton_2.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	}
+        });
         btnNewButton_2.setAlignmentX(0.5f);
         panel_1.add(btnNewButton_2);
         
@@ -491,6 +511,10 @@ public class HMAgenceRendezVous extends javax.swing.JScrollPane {
         pPropertyMeeting.add(comboBox_2, gbc_comboBox_2);
         
         bEnregistrerRDV = new JButton("Enregistrer");
+        bEnregistrerRDV.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	}
+        });
         bEnregistrerRDV.setAlignmentX(0.5f);
         pDetailsMeeting.add(bEnregistrerRDV);
 		
