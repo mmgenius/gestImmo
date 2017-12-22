@@ -7,7 +7,7 @@ public class TraceDeVente {
 	
 	private List<PromesseVente> archives ; 
 	public TraceDeVente() {
-		setArchives(new ArrayList<>()); 	
+		//setArchives(new ArrayList<>()); 	
 	}
 	
 	public void ajouterPromesse(PromesseVente pro) {
