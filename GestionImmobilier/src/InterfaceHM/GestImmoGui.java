@@ -81,16 +81,16 @@ public class GestImmoGui extends javax.swing.JFrame {
         jTabbedPane2.addTab("Agence", panelAgence);
        
         //Biens
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTabbedPane2.addTab("Biens", jScrollPane2);
+        panelBien = new HMBiens();
+        jTabbedPane2.addTab("Biens", panelBien);
+        
+                //Personnes
+                panelPersonnes = new HMPersonnes();
+                jTabbedPane2.addTab("Personnes", panelPersonnes);
         
         //Ventes
         jScrollPane4 = new javax.swing.JScrollPane();
         jTabbedPane2.addTab("Ventes", jScrollPane4); 
-
-        //Personnes
-        panelPersonnes = new HMPersonnes();
-		jTabbedPane2.addTab("Personnes", panelPersonnes);
 		desktopPane.add(jTabbedPane2);
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -155,6 +155,7 @@ public class GestImmoGui extends javax.swing.JFrame {
     }
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JScrollPane panelAgence;
+    private javax.swing.JScrollPane panelBien;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane panelPersonnes;
     private javax.swing.JScrollPane jScrollPane4;
