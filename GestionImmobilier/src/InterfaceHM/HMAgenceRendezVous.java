@@ -311,6 +311,7 @@ public class HMAgenceRendezVous extends javax.swing.JScrollPane {
         listMeetings = new JList();
         listMeetings.addListSelectionListener(new ListSelectionListener() {
         	public void valueChanged(ListSelectionEvent arg0) {
+        		actionChoisirAutre(arg0);
         	}
         });
         panel_1.add(listMeetings);

@@ -1,13 +1,14 @@
 package GestionAgence;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Publicite {
+public class Publicite implements Serializable{
 	public enum TypePub {Journal, Tele, Annonce};
 	private TypePub type;
 	private ArrayList<Document> docs;
 	private int idBien;
-	boolean publie;
+	private boolean publie;
 	private String titre;
 	
 	public void modifier(Document doc) {

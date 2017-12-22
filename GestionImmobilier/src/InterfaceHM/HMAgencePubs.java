@@ -21,6 +21,7 @@ import javax.swing.JSeparator;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import GestionAgence.Document;
@@ -242,7 +243,11 @@ public class HMAgencePubs extends javax.swing.JScrollPane {
         modPubs = new DefaultListModel();
         listPubs = new JList(modPubs);
         pListPubs.add(listPubs);
-        
+        listPubs.addListSelectionListener(new ListSelectionListener() {
+        	public void valueChanged(ListSelectionEvent arg0) {
+        		actionChoisirAutre(arg0);
+        	}
+        });
         baddPub = new JButton("Ajouter");
         baddPub.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
