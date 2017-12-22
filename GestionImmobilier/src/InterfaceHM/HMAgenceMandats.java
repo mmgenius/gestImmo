@@ -151,21 +151,42 @@ public class HMAgenceMandats extends javax.swing.JScrollPane {
 		GregorianCalendar gc = null;
 		Bien b = null;
 		Client c = null;
+		try {
+			String[] daymonth = formattedTextField.getText().split("\\/");
+			String[] yeartime = daymonth[2].split(",");
+			String[] time = yeartime[1].split("h");
+			
+			int day = Integer.parseInt(daymonth[0]);
+			int month = Integer.parseInt(daymonth[1]);
+			int year = Integer.parseInt(yeartime[0]);
+			int hour = Integer.parseInt(time[0]);
+			int minute = Integer.parseInt(time[1]);
+			
+			 gc = new GregorianCalendar(year, month, day, hour, minute);
+		} catch (Exception z){
+			final JFrame parent = new JFrame();
+			JOptionPane.showMessageDialog(parent, "Date Format must be: dd/mm/yyyy,hhhmm");
+		}
+		int duree = -1;
+		try {
+			duree = Integer.parseInt(tMandatDuree.getText());
+		} catch (Exception e) {
+			//TODO Throw exception
+		}
 		
-		String titre = textField.getText();
-		String description = textArea.getText();
+		boolean signe = chkSignee.isSelected();
 		try {
 			//Bien
-			b = biens.get(comboBox_2.getSelectedIndex());
+			b = biens.get(cMandatBien.getSelectedIndex());
 		} catch (Exception a) {
 			System.out.println("pas de bien");	
 		}
 		try {
-			c = clients.get(comboBox_1.getSelectedIndex());
+			c = clients.get(cClientMandat.getSelectedIndex());
 		} catch (Exception s) {
 			System.out.println("pas de client");
 		}
-		RendezVous rdv = new RendezVous(gc, description, titre, e, c, b);
+		Mandat m = new Mandat(gc, duree,signe, duree, b, c);
 		
 		if(modRDVs.getElementAt(listMeetings.getSelectedIndex()).equals("<<Nouveau>>")) {
 			listRendezVous.add(rdv);
