@@ -1,10 +1,15 @@
 package GestionBien;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 import Outils.Adresse;
 
-public class Bien {
+public class Bien implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id ; 
 	private float prix ; 
 	private Adresse adresse ; 

@@ -72,6 +72,7 @@ public class HMAgenceMandats extends javax.swing.JScrollPane {
     private JButton bSaveMandat;
 	
 	public HMAgenceMandats() {
+		modMandats = new DefaultListModel<String>();
 		initComponents();
 		addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent arg0) {
@@ -95,6 +96,9 @@ public class HMAgenceMandats extends javax.swing.JScrollPane {
         	 JOptionPane.showMessageDialog(parent, "Pas possible d ouvrir le fichier "+e.getMessage());
         	 //System.exit(1);
         }
+		reloadClients();
+		reloadBiens();
+		
 		refreshMandatList();
 		
 	}	
@@ -124,13 +128,26 @@ public class HMAgenceMandats extends javax.swing.JScrollPane {
 	private void actionChoisirAutre(ListSelectionEvent e) {
 		try {
 			Mandat m = mandats.get(listMandats.getSelectedIndex());
-			//TODO
+			tDateSignature.setText(m.getDateSignature().YEAR+"/"+m.getDateSignature().MONTH+"/"+m.getDateSignature().MONTH+","+m.getDateSignature().HOUR_OF_DAY+"h"+m.getDateSignature().MINUTE);
+			tMandatDuree.setText(m.getDureeJours()+"");
+			chkSignee.setSelected(m.isSigne());
+			cMandatBien.setSelectedItem(m.getBien());
+			cClientMandat.setSelectedItem(m.getClient());
 		} catch (IndexOutOfBoundsException ex){
 			System.out.println("new entry");
 		}		
 	}
 	private void reloadBiens() {
-		// TODO load data, delete items, add all items in reloaded list
+		// load data, delete items, add all items in reloaded list
+		try {
+			loadBiens();
+		} catch (Exception e) {
+			System.out.println("couldnt load any biens");
+			e.printStackTrace();			
+		}
+		cMandatBien.removeAllItems();
+		for(Bien b: biens)
+			cMandatBien.addItem(b);
 	}
 
 	private void reloadClients() {
@@ -152,7 +169,7 @@ public class HMAgenceMandats extends javax.swing.JScrollPane {
 		Bien b = null;
 		Client c = null;
 		try {
-			String[] daymonth = formattedTextField.getText().split("\\/");
+			String[] daymonth = tDateSignature.getText().split("\\/");
 			String[] yeartime = daymonth[2].split(",");
 			String[] time = yeartime[1].split("h");
 			
@@ -188,11 +205,11 @@ public class HMAgenceMandats extends javax.swing.JScrollPane {
 		}
 		Mandat m = new Mandat(gc, duree,signe, duree, b, c);
 		
-		if(modRDVs.getElementAt(listMeetings.getSelectedIndex()).equals("<<Nouveau>>")) {
-			listRendezVous.add(rdv);
-			refreshRDVList();
+		if(modMandats.getElementAt(listMandats.getSelectedIndex()).equals("<<Nouveau>>")) {
+			mandats.add(m);
+			refreshMandatList();
 		} else {
-				listRendezVous.set(listMeetings.getSelectedIndex(), rdv);
+				mandats.set(listMandats.getSelectedIndex(), m);
 			}
 		try{
 			saveMandats();
@@ -200,7 +217,7 @@ public class HMAgenceMandats extends javax.swing.JScrollPane {
        	 	final JFrame parent = new JFrame();
        	 	JOptionPane.showMessageDialog(parent, "Pas possible d'enregistrer le fichier "+u.getMessage());
 		}
-		refreshRDVList();
+		refreshMandatList();
 		
 	}	
 	

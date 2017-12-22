@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -30,6 +31,7 @@ import javax.swing.event.ListSelectionListener;
 
 import GestionBien.Maison;
 import Outils.Adresse;
+import Outils.Date;
 
 public class HMBiensMaison extends javax.swing.JScrollPane{
 	private ArrayList<Maison> listMaisons;	
@@ -106,7 +108,7 @@ public class HMBiensMaison extends javax.swing.JScrollPane{
 	private void actionHide() {
 		//enregistrer etat
 		try {
-			saveBiens();
+			saveMaisons();
 		} catch (Exception e){
 			final JFrame parent = new JFrame();
        	 	JOptionPane.showMessageDialog(parent, "Pas possible de modifier le fichier "+e.getMessage());
@@ -134,43 +136,58 @@ public class HMBiensMaison extends javax.swing.JScrollPane{
 			System.out.println("new entry");
 		}		
 	}
-	private void actionEnregistrer(ActionEvent arg0) {
+	private void actionEnregistrer(ActionEvent arg0) throws Exception{
 		//enregistre une nouvelle maison  ou la modifie
 		if(list_1.getSelectedIndex()!=-1) {
+			Adresse a = null;
 			try {
-				Adresse a = new Adresse(textField_10.getText().split("\\|"));
-				int mat;
-				try {
-					//Entreprise
-					mat = Integer.parseInt(tMaisonSiren.getText());
-				} catch (Exception e) {
-					//Particulier
-					mat = getNewID();				
-				}
-				//Maison e = new Maison(a,textField_9.getText(),textField_7.getText(),textField_12.getText(), tMaisonTel.getText(),mat);
-
-				if(modMaisons.getElementAt(list_1.getSelectedIndex()).equals("<<Nouveau>>")) {
-					listMaisons.add(e);
-					refreshMaisonsList();
-				} else {
-					listMaisons.set(list_1.getSelectedIndex(), e);
-				}
-				
-			} catch (Exception e){
-				final JFrame parent = new JFrame();
-				JOptionPane.showMessageDialog(parent, e.getMessage());
-			}
-			try{
+				a = new Adresse(textField_10.getText().split("\\|"));
 			} catch (Exception e) {
-	       	 	final JFrame parent = new JFrame();
-	       	 	JOptionPane.showMessageDialog(parent, "Pas possible d'enregistrer le fichier "+e.getMessage());
+				throw new Exception("Adresse doit etre du format Numero|Rue|CodePostale|Pays");
+			}
+			int mat = getNewID();	
+			String orientation = textField_2.getText();
+			String chauffage = textField_12.getText();
+			String titre = textField_7.getText();
+			float price = 0.0f;
+			try {
+				price = Float.parseFloat(textField_1.getText());
+			} catch (Exception e) {
+				throw new Exception("Prix doit etre du format EE.CC");
+			}
+			float surface = 0.0f;
+			try {
+				surface = Float.parseFloat(tMaisonSiren.getText());
+			} catch (Exception e) {
+				throw new Exception("Surface doit etre du format m.cm");
+			}
+			int nP = 0;
+			try {
+				nP = Integer.parseInt(tMaisonTel.getText());
+			} catch (Exception e) {
+				throw new Exception("Le nombre des pieces doit etre un entier.");
+			}	
+			int nE = 0;
+			try {
+				nE = Integer.parseInt(textField_9.getText());
+			} catch (Exception e) {
+				throw new Exception("Le nombre des étages doit etre un entier.");
+			}	
+			GregorianCalendar dateDispo = Date.StringToCalendar(textField_3.getText());
+			GregorianCalendar dateVente = Date.StringToCalendar(textField.getText());
+			Maison m = new Maison(getNewID(), price,a,orientation,dateDispo, dateVente, surface,nE, nP, chauffage, titre);
+
+			if(modMaisons.getElementAt(list_1.getSelectedIndex()).equals("<<Nouveau>>")) {
+				listMaisons.add(m);
+				refreshMaisonsList();
+			} else {
+				listMaisons.set(list_1.getSelectedIndex(), m);
 			}
 			refreshMaisonsList();
 		} else {
 			final JFrame parent = new JFrame();
        	 	JOptionPane.showMessageDialog(parent, "D'abord ajouter tu dois. Ou de nouveau creer avec la force donnée");
 		}
-		
 	}	
 	
 	private void loadMaisons() throws Exception{
@@ -183,8 +200,8 @@ public class HMBiensMaison extends javax.swing.JScrollPane{
 	    		
 	    }
 	}
-    private void saveBiens() throws Exception{
-    	try ( ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("Biens.dat")) ) {
+    private void saveMaisons() throws Exception{
+    	try ( ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("Maisons.dat")) ) {
     		os.writeObject(listMaisons);
     		} catch (IOException e) {
     			throw new Exception(e.getCause());
@@ -432,7 +449,12 @@ public class HMBiensMaison extends javax.swing.JScrollPane{
         bMaisonsSave = new JButton("Enregistrer");
         bMaisonsSave.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		actionEnregistrer(e);
+        		try {
+        			actionEnregistrer(e);
+        		} catch (Exception s) {
+        			final JFrame parent = new JFrame();
+               	 	JOptionPane.showMessageDialog(parent, s.getMessage());
+        		}
         	}
         });
         

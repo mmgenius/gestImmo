@@ -28,13 +28,14 @@ import javax.swing.event.AncestorListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import GestionBien.Terrain;
 import GestionPersonne.Client;
 import Outils.Adresse;
 
 public class HMBiensTerrain extends javax.swing.JScrollPane{
 	
 
-	private ArrayList<Client> terrain;	
+	private ArrayList<Terrain> terrain;	
     private DefaultListModel<String> modClients;   
 	
     private JPanel ListClient;
@@ -110,21 +111,15 @@ public class HMBiensTerrain extends javax.swing.JScrollPane{
 	}
 	private void actionSupprimer(ActionEvent arg0) {
 		if(list_1.getSelectedIndex()!=-1) {
-			//remove from employees list
-			listClients.remove(list_1.getSelectedIndex());
+			//remove from maison list
+			terrain.remove(list_1.getSelectedIndex());
 			//remove from swing element
 			modClients.removeElementAt(list_1.getSelectedIndex());
 		}
 	}
 	private void actionChoisirAutre(ListSelectionEvent e) {
 		try {
-			Client c = listClients.get(list_1.getSelectedIndex());
-			textField_7.setText(c.getNom());
-			textField_12.setText(c.getPrenom());
-			textField_9.setText(c.getEmail());
-			textField_10.setText(c.getAdresse().toString());
-			tClientTel.setText(c.getTel());
-			tClientSiren.setText(c.getId()+"");
+			Terrain c = terrain.get(list_1.getSelectedIndex());
 		} catch (IndexOutOfBoundsException ex){
 			System.out.println("new entry");
 		}		
@@ -142,13 +137,12 @@ public class HMBiensTerrain extends javax.swing.JScrollPane{
 				mat = getNewID();
 				
 			}
-			Client e = new Client(a,textField_9.getText(),textField_7.getText(),textField_12.getText(), tClientTel.getText(),mat);
-			System.out.println(e.getEmail());
+			Terrain e = null;
 			if(modClients.getElementAt(list_1.getSelectedIndex()).equals("<<Nouveau>>")) {
-				listClients.add(e);
+				terrain.add(e);
 				refreshClientsList();
 			} else {
-				listClients.set(list_1.getSelectedIndex(), e);
+				terrain.set(list_1.getSelectedIndex(), e);
 			}
 			
 		} catch (Exception e){
@@ -165,18 +159,18 @@ public class HMBiensTerrain extends javax.swing.JScrollPane{
 	}	
 	
 	private void loadEmployees() throws Exception{
-	    try ( ObjectInputStream is = new ObjectInputStream(new FileInputStream("Clients.dat")) ) {
-	    		listClients = (ArrayList<Client>)is.readObject();
+	    try ( ObjectInputStream is = new ObjectInputStream(new FileInputStream("Terrains.dat")) ) {
+	    		terrain = (ArrayList<Terrain>)is.readObject();
 	    } catch (IOException e) {
-	    		listClients = new ArrayList<Client>();
+	    		terrain = new ArrayList<Terrain>();
 	    		System.out.println("capute");
-	    		throw new Exception("Clients.dat");
+	    		throw new Exception("Terrains.dat");
 	    		
 	    }
 	}
     private void saveClients() throws Exception{
-    	try ( ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("Clients.dat")) ) {
-    		os.writeObject(listClients);
+    	try ( ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("Terrains.dat")) ) {
+    		os.writeObject(terrain);
     		} catch (IOException e) {
     			throw new Exception(e.getCause());
     		}	
@@ -191,14 +185,14 @@ public class HMBiensTerrain extends javax.swing.JScrollPane{
     }
     private void refreshClientsList() {
     	modClients.removeAllElements();
-    	for (Client e: listClients)
-    		modClients.addElement(e.getNom()+" "+e.getPrenom());
+    	for (Terrain e: terrain)
+    		modClients.addElement(e.getId()+"");
 
 
     }
     private int getNewID() {
     	int maxID = -1;
-		for (Client c: listClients) {
+		for (Terrain c: terrain) {
 			if(maxID<c.getId())
 				maxID=c.getId();
 		}

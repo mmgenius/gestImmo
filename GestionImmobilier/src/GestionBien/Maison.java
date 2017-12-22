@@ -1,22 +1,25 @@
 package GestionBien;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 import Outils.Adresse;
 
-public class Maison extends Bien{
+public class Maison extends Bien implements Serializable{
 
 	private float surfaceHabitable ; 
 	private int nombreEtage, nombrePiece ; 
 	private String moyenChauffage ; 
+	private String titre;
 	
 	public Maison(int iden, float price, Adresse address, String Oriented, GregorianCalendar dispo,
-			GregorianCalendar dateVente, float surface, int nbEt, int nbP, String chauf) {
+			GregorianCalendar dateVente, float surface, int nbEt, int nbP, String chauf, String titre) {
 		super(iden, price, address, Oriented, dispo, dateVente);
 		surfaceHabitable = surface ; 
 		nombreEtage = nbEt ; 
 		nombrePiece = nbP ; 
-		moyenChauffage = chauf ; 
+		moyenChauffage = chauf ;
+		this.titre = titre;
 		
 	}
 
@@ -54,6 +57,10 @@ public class Maison extends Bien{
 	
 	public String toString() {
 		return super.getOrientation()+","+surfaceHabitable+","+nombreEtage+","+nombrePiece+","+moyenChauffage ; 
+	}
+
+	public String getTitre() {
+		return this.titre;
 	}
 
 }
