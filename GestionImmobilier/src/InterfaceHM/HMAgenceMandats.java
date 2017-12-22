@@ -4,17 +4,45 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
+import javax.swing.event.ListSelectionEvent;
+
+import GestionAgence.Mandat;
+import GestionAgence.Publicite;
+import GestionAgence.RendezVous;
+import GestionBien.Bien;
+import GestionPersonne.Client;
+import GestionPersonne.EmployeeAgence;
 
 public class HMAgenceMandats extends javax.swing.JScrollPane {
+	
+	private ArrayList<Mandat> mandats;	
+	
+	private ArrayList<Bien> biens;	
+	private ArrayList<Client> clients;	
+	
+	private DefaultListModel<String> modMandats;  
 	
     private JPanel pListMandats;
     private JPanel pPlaceholder;
@@ -42,6 +70,186 @@ public class HMAgenceMandats extends javax.swing.JScrollPane {
     private JButton bSaveMandat;
 	
 	public HMAgenceMandats() {
+		initComponents();
+		addAncestorListener(new AncestorListener() {
+			public void ancestorAdded(AncestorEvent arg0) {
+				actionVisible();
+			}
+			public void ancestorMoved(AncestorEvent arg0) {
+			}
+			public void ancestorRemoved(AncestorEvent arg0) {
+				actionHide();
+			}
+		});
+		mandats = new ArrayList<Mandat>();
+	}
+	private void actionVisible() {
+		//charger etat
+		try {
+        	loadMandats();
+        }
+        catch (Exception e) {
+        	 final JFrame parent = new JFrame();
+        	 JOptionPane.showMessageDialog(parent, "Pas possible d ouvrir le fichier "+e.getMessage());
+        	 //System.exit(1);
+        }
+		refreshMandatList();
+		
+	}	
+	private void actionHide() {
+		//enregistrer etat
+		try {
+			saveMandats();
+		} catch (Exception e){
+			final JFrame parent = new JFrame();
+       	 	JOptionPane.showMessageDialog(parent, "Pas possible de modifier le fichier "+e.getMessage());
+		}
+		
+	}
+	private  void actionAjouter(ActionEvent arg0) {
+		modMandats.addElement("<<Nouveau>>");
+		clearMandatDetails();
+		listMandats.setSelectedIndex(listMandats.getLastVisibleIndex()+1);
+	}
+	private void actionSupprimer(ActionEvent arg0) {
+		if(listMandats.getSelectedIndex()!=-1) {
+			//remove from employees list
+			mandats.remove(listMandats.getSelectedIndex());
+			//remove from swing element
+			modMandats.removeElementAt(listMandats.getSelectedIndex());
+		}
+	}
+	private void actionChoisirAutre(ListSelectionEvent e) {
+		try {
+			Mandat m = mandats.get(listMandats.getSelectedIndex());
+			//TODO
+		} catch (IndexOutOfBoundsException ex){
+			System.out.println("new entry");
+		}		
+	}
+	private void reloadBiens() {
+		// TODO load data, delete items, add all items in reloaded list
+	}
+
+	private void reloadClients() {
+		try {
+			loadClients();
+		} catch (Exception e) {
+			System.out.println("couldnt load any clients");
+			e.printStackTrace();
+		}
+		comboBox_1.removeAllItems();
+		for(Client c: clients)
+			comboBox_1.addItem(c.getPrenom()+", "+c.getNom());
+		
+	}
+
+	private void actionEnregistrer(ActionEvent arg0) {
+		//enregistre un nouveau rdv ou le modifie
+		GregorianCalendar gc = null;
+		EmployeeAgence e = null;
+		Bien b = null;
+		Client c = null;
+		try {
+			String[] daymonth = formattedTextField.getText().split("\\/");
+			String[] yeartime = daymonth[2].split(",");
+			String[] time = yeartime[1].split("h");
+			
+			int day = Integer.parseInt(daymonth[0]);
+			int month = Integer.parseInt(daymonth[1]);
+			int year = Integer.parseInt(yeartime[0]);
+			int hour = Integer.parseInt(time[0]);
+			int minute = Integer.parseInt(time[1]);
+			
+			 gc = new GregorianCalendar(year, month, day, hour, minute);
+		} catch (Exception z){
+			final JFrame parent = new JFrame();
+			JOptionPane.showMessageDialog(parent, "Date Format must be: dd/mm/yyyy,hhhmm");
+		}
+		
+		String titre = textField.getText();
+		String description = textArea.getText();
+		try {
+			//employee
+			e = employeesAgence.get(comboBox.getSelectedIndex());
+		} catch (Exception a) {
+			System.out.println("pas d'employee");	
+		}
+		try {
+			//Bien
+			b = biens.get(comboBox_2.getSelectedIndex());
+		} catch (Exception a) {
+			System.out.println("pas de bien");	
+		}
+		try {
+			c = clients.get(comboBox_1.getSelectedIndex());
+		} catch (Exception s) {
+			System.out.println("pas de client");
+		}
+		RendezVous rdv = new RendezVous(gc, description, titre, e, c, b);
+		
+		if(modRDVs.getElementAt(listMeetings.getSelectedIndex()).equals("<<Nouveau>>")) {
+			listRendezVous.add(rdv);
+			refreshRDVList();
+		} else {
+				listRendezVous.set(listMeetings.getSelectedIndex(), rdv);
+			}
+		try{
+			saveMandats();
+		} catch (Exception u) {
+       	 	final JFrame parent = new JFrame();
+       	 	JOptionPane.showMessageDialog(parent, "Pas possible d'enregistrer le fichier "+u.getMessage());
+		}
+		refreshRDVList();
+		
+	}	
+	
+	private void loadMandats() throws Exception{
+	    try ( ObjectInputStream is = new ObjectInputStream(new FileInputStream("Mandats.dat")) ) {
+	    		mandats = (ArrayList<Mandat>)is.readObject();
+	    } catch (IOException e) {
+	    		mandats = new ArrayList<Mandat>();
+	    		System.out.println("failed Mandats");
+	    		throw new Exception("Mandats.dat");
+	    		
+	    }
+	}
+    private void saveMandats() throws Exception{
+    	try ( ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("Mandats.dat")) ) {
+    		os.writeObject(mandats);
+    		} catch (IOException e) {
+    			throw new Exception(e.getCause());
+    		}	
+    }
+    
+	private void loadClients() throws Exception{
+	    try ( ObjectInputStream is = new ObjectInputStream(new FileInputStream("Clients.dat")) ) {
+	    		clients = (ArrayList<Client>)is.readObject();
+	    } catch (IOException e) {
+	    		clients = new ArrayList<Client>();
+	    		throw new Exception("Clients.dat");
+	    		
+	    }
+	}	
+	    
+	private void loadBiens() throws Exception{
+	    try ( ObjectInputStream is = new ObjectInputStream(new FileInputStream("Biens.dat")) ) {
+    		biens = (ArrayList<Bien>)is.readObject();
+	    } catch (IOException e) {
+	    		biens = new ArrayList<Bien>();
+	    		throw new Exception("Biens.dat");	
+	    }	    
+	}
+    private void clearMandatDetails() {
+    	//TODO
+    }
+    private void refreshMandatList() {
+    	modMandats.removeAllElements();
+    	for (Mandat m: mandats)
+    		modMandats.addElement(m.getBien().getId()+"_"+m.getClient().getNom());
+    }
+
+	private void initComponents() {
         pListMandats = new JPanel();
         this.setRowHeaderView(pListMandats);
         pListMandats.setLayout(new BoxLayout(pListMandats, BoxLayout.Y_AXIS));
